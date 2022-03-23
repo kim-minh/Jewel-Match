@@ -56,16 +56,14 @@ int main(){
             board[i][j] = rand() % (Total-1) + 1;
         }
     }
+    while(existsMatch()){
+        remove();
+        fill();
+    }
     display();
     bool running = true;
     int x1, y1, x2, y2;
     while(running){
-        while(existsMatch()){
-            remove();
-            display();
-            fill();
-            display();
-        }
         cout << "Select first square: ";
         cin >> x1 >> y1;
         cout << "Select second square: ";
@@ -74,6 +72,14 @@ int main(){
         if(!existsMatch()){
             swap(board[x1][y1], board[x2][y2]);
             cout << "Invalid move!\n";
+        }
+        else{
+            while(existsMatch()){
+                remove();
+                display();
+                fill();
+                display();
+            }
         }
     }
 }
