@@ -116,9 +116,21 @@ void remove(){
             }
         }
     }
+    memset(pendingRemoval, 0, sizeof(pendingRemoval));
 }
 
 void fill(){
+    //Drop gems down
+    for(int j = 0; j < col; j++){
+        for(int i = row - 1; i >=0; i--){
+            for(int k = i - 1; k >= 0; k--){
+                if(board[i][j] == Destroyed && board[k][j] != 0){
+                    swap(board[i][j], board[k][j]);
+                }
+            }
+        }
+    }
+    //Fill empty squares with new jewels
     for(int i = 0; i < row; i++){
         for(int j = 0; j < col; j++){
             if(board[i][j] == Destroyed){
@@ -126,5 +138,4 @@ void fill(){
             }
         }
     }
-    memset(pendingRemoval, 0, sizeof(pendingRemoval));
 }
