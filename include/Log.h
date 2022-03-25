@@ -1,15 +1,14 @@
 #ifndef LOG_H
 #define LOG_H
-#include <string>
-using namespace std;
+
 class Log{
     private:
         //Error message
-        string msg;
+        std::string msg;
     public:
         //Log SDL error
-        void SDL(const string& msg);
+        void SDL(const std::string& msg);
         //Log IMG error
-        void IMG(const string& msg);
+        void IMG(const std::string& msg);
 };
 #endif
