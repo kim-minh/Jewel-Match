@@ -2,6 +2,6 @@
 #define JEWELS_H
 
 //Jewels in squares
-enum Jewels{Destroyed, Red, Green, Blue, Orange, Yellow, Total};
+enum Jewels{Destroyed, Red, Green, Blue, Orange, White, Total};
 
 #endif
