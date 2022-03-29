@@ -15,7 +15,7 @@ const int col = 8;
 int board[row][col];
 int pendingRemoval[row][col];
 
-enum Jewels{Destroyed, Red, Green, Blue, Orange, Yellow, Total};
+enum Jewels{Destroyed, Red, Green, Blue, Orange, White, Total};
 
 //Display board
 void display();
@@ -84,15 +84,33 @@ int main(){
     }
 }
 
-void display(){
-    for(int i = 0; i < row; i++){
-        for(int j = 0; j < col; j++){
-            cout << board[i][j] << ' ';
+void display()
+{
+    for(int row = 0; row < 8; row++) {
+        for(int col = 0; col < 8; col++) {
+            switch(board[row][col]){
+                case Red:
+                    cout << "\x1B[31m";
+                    break;
+                case Green:
+                    cout << "\x1B[32m";
+                    break;
+                case Blue:
+                    cout << "\x1B[34m";;
+                    break;
+                case Orange:
+                    cout << "\x1B[33m";;
+                    break;
+                case White:
+                    cout << "\x1B[37m";
+                    break;
+            }
+            cout << board[row][col] << ' ';
         }
         cout << '\n';
     }
-    cout << setfill('_') << setw(15) << '_' << "\n\n";
-}
+    cout << setfill('_') << setw(15) << '_' << "\033[0m\n\n";
+};
 
 bool matched(int x, int y, int stepX, int stepY){
     //Starting value

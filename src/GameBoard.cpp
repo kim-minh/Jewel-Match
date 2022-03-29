@@ -1,13 +1,18 @@
 #include <iostream>
-#include <iomanip>
 #include "GameBoard.h"
-#include "Jewels.h"
 
 GameBoard::GameBoard(const int rows, const int cols) : nRows(rows), nCols(cols)
 {
     board.resize(nRows, vector<int>(nCols));
     pendingRemoval.resize(nRows, vector<bool>(nCols));
-};
+    boardTexture = IMG_LoadTexture(renderer, "assets/Background.png");
+}
+
+GameBoard::~GameBoard()
+{
+    SDL_DestroyTexture(boardTexture);
+    boardTexture = NULL;
+}
 
 void GameBoard::randomize(){
     //Board creation
@@ -20,35 +25,16 @@ void GameBoard::randomize(){
         clear();
         refill();
     }
-};
+}
 
-void GameBoard::display()
+void GameBoard::updateBoard()
 {
-    for(int row = 0; row < nRows; row++) {
-        for(int col = 0; col < nCols; col++) {
-            switch(board[row][col]){
-                case Red:
-                    cout << "\x1B[31m";
-                    break;
-                case Green:
-                    cout << "\x1B[32m";
-                    break;
-                case Blue:
-                    cout << "\x1B[34m";;
-                    break;
-                case Orange:
-                    cout << "\x1B[33m";;
-                    break;
-                case White:
-                    cout << "\x1B[37m";
-                    break;
-            }
-            cout << board[row][col] << ' ';
-        }
-        cout << '\n';
+    SDL_RenderClear(renderer);
+    if(boardTexture == NULL){
+        LogIMG("IMG_Load");
     }
-    cout << setfill('_') << setw(15) << '_' << "\033[0m\n\n";
-};
+    SDL_RenderCopy(renderer, boardTexture, NULL, NULL);
+}
 
 void GameBoard::clear()
 {
@@ -60,7 +46,7 @@ void GameBoard::clear()
             }
         }
     }
-};
+}
 
 void GameBoard::refill()
 {
@@ -83,7 +69,7 @@ void GameBoard::refill()
             }
         }
     }
-};
+}
 
 bool GameBoard::match3(int row, int col, const std::string& direction)
 {
@@ -108,7 +94,7 @@ bool GameBoard::match3(int row, int col, const std::string& direction)
         pendingRemoval[row + i*stepX][col + i*stepY] = 1;
     }
     return true;
-};
+}
 
 bool GameBoard::existMatch()
 {
@@ -132,4 +118,4 @@ bool GameBoard::existMatch()
         }    
     }
     return exist;
-};
+}

@@ -53,20 +53,20 @@ int main(){
     window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_RenderClear(renderer);
-    texture[0] = IMG_LoadTexture(renderer, "gemRed.png");
-    texture[1] = IMG_LoadTexture(renderer, "gemGreen.png");
-    texture[2] = IMG_LoadTexture(renderer, "gemBlue.png");
-    texture[3] = IMG_LoadTexture(renderer, "gemOrange.png");
-    texture[4] = IMG_LoadTexture(renderer, "gemWhite.png");
+    texture[0] = IMG_LoadTexture(renderer, "assets/gemRed.png");
+    texture[1] = IMG_LoadTexture(renderer, "assets/gemGreen.png");
+    texture[2] = IMG_LoadTexture(renderer, "assets/gemBlue.png");
+    texture[3] = IMG_LoadTexture(renderer, "assets/gemOrange.png");
+    texture[4] = IMG_LoadTexture(renderer, "assets/gemWhite.png");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-    int startX = 185, startY = 30;
+    int startX = 150, startY = 30;
     for(int x = 0; x < 8; x++){
         for(int y = 0; y < 8; y++){
-            rect[x][y].x = x * 50 + startX;
-            rect[x][y].y = y * 50 + startY;
-            rect[x][y].w = 50;
-            rect[x][y].h = 50;
+            rect[x][y].x = x * 65 + startX;
+            rect[x][y].y = y * 65 + startY;
+            rect[x][y].w = 65;
+            rect[x][y].h = 65;
         }
     }
 

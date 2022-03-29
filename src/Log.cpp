@@ -3,9 +3,13 @@
 #include <SDL2/SDL_image.h>
 #include "Log.h"
 
-void Log::SDL(const std::string& msg){
-    std::cout << msg << " Error: " << SDL_GetError();
+void LogSDL(const char* msg){
+    std::cout << msg << " Error: " << SDL_GetError() << '\n';
 }
-void Log::IMG(const std::string& msg){
-    std::cout << msg << " Error: " << IMG_GetError();
+void LogIMG(const char* msg){
+    std::cout << msg << " Error: " << IMG_GetError() << '\n';
+}
+
+void Error(const char* msg){
+    std::cout << msg;
 }

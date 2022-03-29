@@ -1,24 +1,26 @@
 #ifndef GAME_BOARD_H
 #define GAME_BOARD_H
+#include "Engine.h"
 #include <vector>
 
 using namespace std;
 
-class GameBoard
+class GameBoard : public Engine
 {
-    private:
+    protected:
         const int nRows, nCols;
+
+        //Jewels to be removed
         vector<vector<bool> > pendingRemoval;
 
-    public:
+        //n*n board
         vector<vector<int> > board;
-        //Initialize board
-        GameBoard(const int rows, const int cols);
+        SDL_Texture* boardTexture;
 
         void randomize();
 
-        //Display board
-        void display();
+        //Render board
+        void updateBoard();
 
         //Clear matching jewels
         void clear();
@@ -32,6 +34,11 @@ class GameBoard
         //Check if exists at least 3 jewels matching
         bool existMatch();
 
+
+    public:
+
+        GameBoard(const int rows, const int cols);
+        ~GameBoard();
 };
 
 #endif
