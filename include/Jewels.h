@@ -2,7 +2,7 @@
 #define JEWELS_H
 #include "GameBoard.h"
 
-class Jewel : public GameBoard
+class Jewel : protected GameBoard
 {
     protected:
         //Jewel textures

@@ -2,7 +2,7 @@
 #define GAME_H
 #include "Jewels.h"
 
-class Game : public Jewel
+class Game : private Jewel
 {
     private:
         SDL_Event e;

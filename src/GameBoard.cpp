@@ -1,4 +1,3 @@
-#include <iostream>
 #include "GameBoard.h"
 
 GameBoard::GameBoard(const int rows, const int cols) : nRows(rows), nCols(cols)

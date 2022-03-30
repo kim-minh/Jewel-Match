@@ -38,7 +38,7 @@ bool Engine::init()
         success = false;
     }
 
-    icon = IMG_Load("assets/gemBlue.png");
+    icon = IMG_Load("assets/icon.png");
     if(icon == NULL){
         LogIMG("IMG_Load");
         success = false;
@@ -46,11 +46,12 @@ bool Engine::init()
     SDL_SetWindowIcon(window, icon);
     SDL_FreeSurface(icon);
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if(renderer == NULL){
         LogSDL("CreateRenderer");
         success = false;
     }
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
     return success;
