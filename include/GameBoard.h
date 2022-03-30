@@ -7,21 +7,25 @@ using namespace std;
 
 class GameBoard : protected Engine
 {
+    private:
+        //Board texture
+        SDL_Texture* boardTexture;
+
     protected:
         //Board size
         const int nRows, nCols;
 
-        //Jewels to be removed
-        vector<vector<bool> > pendingRemoval;
-
         //n*n board
         vector<vector<int> > board;
 
-        //Board texture
-        SDL_Texture* boardTexture;
+        //Squares that hold jewel
+        vector<vector<SDL_Rect> > square;
 
-        //Randomize jewels
-        void randomize();
+        //Jewels to be removed
+        vector<vector<bool> > pendingRemoval;
+
+        GameBoard(const int& rows, const int& cols);
+        ~GameBoard();
 
         //Render board
         void updateBoard();
@@ -31,16 +35,6 @@ class GameBoard : protected Engine
 
         //Refill jewels
         void refill();
-
-        //Check if 3 jewels are matching
-        bool match3(int row, int col, const std::string& direction);
-        
-        //Check if exists at least 3 jewels matching
-        bool existMatch();
-
-    public:
-        GameBoard(const int rows, const int cols);
-        ~GameBoard();
 };
 
 #endif

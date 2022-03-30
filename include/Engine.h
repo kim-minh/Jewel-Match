@@ -27,7 +27,6 @@ class Engine
         SDL_Window* window;
         SDL_Renderer* renderer;
     
-    public:
         Engine();
         ~Engine();
 };

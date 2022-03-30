@@ -2,7 +2,7 @@
 #define GAME_H
 #include "Jewels.h"
 
-class Game : private Jewel
+class Game
 {
     private:
         SDL_Event e;
@@ -13,6 +13,14 @@ class Game : private Jewel
         //Draw selector
         void renderSelector();
 
+        Jewel jewel;
+
+        //Coordinate
+        int x, y;
+        
+        //Selected coordinate
+        int selectedX, selectedY;
+
         //Swap 2 jewels
         void swapJewels();
 
@@ -22,23 +30,17 @@ class Game : private Jewel
         //Update game state
         void updateGame();
 
-        //Coordinate
-        int x, y;
-        
-        //Selected coordinate
-        int selectedX, selectedY;
-
         //Check if key was pressed
         bool pressed;
         
         //Check if application is running
         bool running;
-        
+
         //Check if a jewel was selected
         bool selected;
 
     public:
-        Game(const int rows, const int cols);
+        Game(const int& rows, const int& cols);
         ~Game();
 };
 

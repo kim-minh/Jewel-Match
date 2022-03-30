@@ -4,12 +4,13 @@
 
 class Jewel : protected GameBoard
 {
-    protected:
+    private:
         //Jewels textures
         SDL_Texture* jewelTexture[Total];
+        friend class Game;
 
-        //Squares that hold jewel
-        vector<vector<SDL_Rect> > square;
+        Jewel(const int& rows, const int& cols);
+        ~Jewel();
 
         //Render jewels
         void renderJewel();
@@ -17,9 +18,14 @@ class Jewel : protected GameBoard
         //Update jewels state
         void updateJewel();
 
-    public:
-        Jewel(const int rows, const int cols);
-        ~Jewel();
+        //Randomize jewels
+        void randomize();
+
+        //Check if 3 jewels are matching
+        bool match3(const int& row, const int& col, const std::string& direction);
+        
+        //Check if exists at least 3 jewels matched
+        bool existMatch();
 };
 
 #endif
