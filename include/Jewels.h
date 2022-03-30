@@ -5,17 +5,21 @@
 class Jewel : protected GameBoard
 {
     protected:
-        //Jewel textures
+        //Jewels textures
         SDL_Texture* jewelTexture[Total];
+
         //Squares that hold jewel
         vector<vector<SDL_Rect> > square;
+
+        //Render jewels
+        void renderJewel();
+
+        //Update jewels state
+        void updateJewel();
+
     public:
         Jewel(const int rows, const int cols);
         ~Jewel();
-
-        //Render Jewels
-        void renderJewel();
-        void updateJewel();
 };
 
 #endif

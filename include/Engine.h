@@ -11,13 +11,23 @@ enum Jewels{Destroyed, Red, Green, Blue, Orange, White, Total};
 class Engine
 {
     private:
+        //Window size
         const int WINDOW_WIDTH, WINDOW_HEIGHT;
+
+        //Window title
         const std::string TITLE;
+
+        //Window icon
         SDL_Surface* icon;
+
+        //Initialize Engine
         bool init();
-    public:
+
+    protected:
         SDL_Window* window;
         SDL_Renderer* renderer;
+    
+    public:
         Engine();
         ~Engine();
 };

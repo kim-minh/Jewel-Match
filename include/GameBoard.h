@@ -8,6 +8,7 @@ using namespace std;
 class GameBoard : protected Engine
 {
     protected:
+        //Board size
         const int nRows, nCols;
 
         //Jewels to be removed
@@ -15,8 +16,11 @@ class GameBoard : protected Engine
 
         //n*n board
         vector<vector<int> > board;
+
+        //Board texture
         SDL_Texture* boardTexture;
 
+        //Randomize jewels
         void randomize();
 
         //Render board
@@ -34,9 +38,7 @@ class GameBoard : protected Engine
         //Check if exists at least 3 jewels matching
         bool existMatch();
 
-
     public:
-
         GameBoard(const int rows, const int cols);
         ~GameBoard();
 };

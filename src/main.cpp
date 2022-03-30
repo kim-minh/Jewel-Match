@@ -1,8 +1,9 @@
 #include "Game.h"
-#define VERSION 1.0
+#define VERSION 1.1
 
 /* 
-Version 1.0
+Version 1.1
+    Improve performace
 */
 
 int main(int argc, char* args[])
