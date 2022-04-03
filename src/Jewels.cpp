@@ -15,12 +15,12 @@ void Jewel::randomize(){
     while(existMatch()){
         clear();
         refill();
+        score = 0;
     }
 }
 
 void Jewel::renderJewel()
 {
-    score += scoreCalculate();
     renderBoard(score);
     for(int x = 0; x < nRows; x++) {
         for(int y = 0; y < nCols; y++) {

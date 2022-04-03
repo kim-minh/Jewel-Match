@@ -1,9 +1,10 @@
 #include "Game.h"
-#define VERSION 1.3
+#define VERSION 1.3.1
 
 /* 
-    v1.3
+    v1.3.1
     - Add score
+    - Fix score calculation
 */
 
 int main(int argc, char* args[])
