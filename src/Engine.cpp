@@ -5,12 +5,17 @@
 Engine::Engine() : WINDOW_WIDTH(800), WINDOW_HEIGHT(600), TITLE("Jewel Match")
 {
     srand(time(NULL));
+    success = true;
     if( !init() ) {
-        Error("Unable to initialize Engine");
+        Error("Unable to initialize Engine!");
         exit();
     }
     else if(!initTexture()) {
-        Error("Unable to load Textures");
+        Error("Unable to load Textures!");
+        exit();
+    }
+    else if(!initFont()) {
+        Error("Unable to load Font!");
         exit();
     }
 }
@@ -22,7 +27,6 @@ Engine::~Engine()
 
 bool Engine::init()
 {
-    bool success = true;
     if(SDL_Init(SDL_INIT_VIDEO) < 0){
         LogSDL("SDL_Init");
         success = false;
@@ -30,6 +34,11 @@ bool Engine::init()
 
     if(!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)){
         LogIMG("IMG_Init");
+        success = false;
+    }
+
+    if(TTF_Init() == -1) {
+        LogTTF("TTF_Init");
         success = false;
     }
 
@@ -66,17 +75,36 @@ bool Engine::initTexture()
         jewelTexture[Blue].loadFile("assets/gemBlue.png") &&
         jewelTexture[Orange].loadFile("assets/gemOrange.png") &&
         jewelTexture[White].loadFile("assets/gemWhite.png") &&
-        selectorTexture.loadFile("assets/selector.png")) //Initialize selector texture
+        selectorTexture.loadFile("assets/selector.png") && //Initialize selector texture
+        scoreTexture.loadFile("assets/scoreBackground.png")) //Initialize score texture
     return true;
     else return false;
 }
 
+bool Engine::initFont()
+{
+    letterFont.font = TTF_OpenFont("assets/fuenteNormal.ttf", 40);
+    if(letterFont.font == NULL) {
+        LogTTF("TTF_OpenFont");
+        success = false;
+    }
+    numberFont.font = TTF_OpenFont("assets/fuentelcd.ttf", 35);
+    if(numberFont.font == NULL) {
+        LogTTF("TTF_OpenFont");
+        success = false;
+    }
+    return success;
+}
+
 void Engine::exit()
 {
+    TTF_CloseFont(letterFont.font);
+    TTF_CloseFont(numberFont.font);
     SDL_DestroyRenderer(renderer);
     renderer = NULL;
     SDL_DestroyWindow(window);
     window = NULL;
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }

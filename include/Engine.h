@@ -14,14 +14,16 @@ class Engine
         //Window icon
         SDL_Surface* icon;
 
-        //Font
-        TTF_Font* gFont;
+        bool success;
 
         //Initialize Engine
         bool init();
 
         //Initialize Texture
         bool initTexture();
+
+        //Initialize Font
+        bool initFont();
 
         void exit();
 
@@ -38,8 +40,12 @@ class Engine
         //Selector texture
         Texture selectorTexture;
 
+        //Score texture
+        Texture scoreTexture;
+
         //Font texture;
-        Texture font;
+        Texture numberFont;
+        Texture letterFont;
 
         void render();
 

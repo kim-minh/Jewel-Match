@@ -20,7 +20,8 @@ void Jewel::randomize(){
 
 void Jewel::renderJewel()
 {
-    engine.boardTexture.render(NULL);
+    score += scoreCalculate();
+    renderBoard(score);
     for(int x = 0; x < nRows; x++) {
         for(int y = 0; y < nCols; y++) {
             int COLOR = board[x][y];
@@ -55,7 +56,7 @@ bool Jewel::match3(const int& row, const int& col, const std::string& direction)
 
     //Mark jewels to be removed
     for(int i = 0; i < 3; i++) {
-        pendingRemoval[row + i*stepX][col + i*stepY] = 1;
+        pendingRemoval[row + i*stepX][col + i*stepY] = true;
     }
     return true;
 }

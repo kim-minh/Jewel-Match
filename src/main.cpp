@@ -1,10 +1,9 @@
 #include "Game.h"
-#define VERSION 1.2
+#define VERSION 1.3
 
 /* 
-    v1.2
-    - Reduce class dependency
-    - Prepare for font support
+    v1.3
+    - Add score
 */
 
 int main(int argc, char* args[])

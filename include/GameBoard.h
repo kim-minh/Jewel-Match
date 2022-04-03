@@ -21,13 +21,21 @@ class GameBoard
         //Jewels to be removed
         vector<vector<bool> > pendingRemoval;
 
+        SDL_Rect scoreBoard;
+
         GameBoard(const int& nRows, const int& nCols);
+
+        //Render game boards
+        void renderBoard(int score);
 
         //Clear matching jewels
         void clear();
 
         //Refill jewels
         void refill();
+        
+        int score;
+        int scoreCalculate();
 };
 
 #endif
