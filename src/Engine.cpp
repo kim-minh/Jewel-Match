@@ -4,19 +4,20 @@
 
 Engine::Engine() : WINDOW_WIDTH(800), WINDOW_HEIGHT(600), TITLE("Jewel Match")
 {
-    time_t current = time(NULL);
-    srand(current);
-    if(!init()){
+    srand(time(NULL));
+    if( !init() ) {
         Error("Unable to initialize Engine");
+        exit();
+    }
+    else if(!initTexture()) {
+        Error("Unable to load Textures");
+        exit();
     }
 }
 
 Engine::~Engine()
 {
-    SDL_DestroyRenderer(renderer);
-    renderer = NULL;
-    SDL_DestroyWindow(window);
-    window = NULL;
+    exit();
 }
 
 bool Engine::init()
@@ -55,4 +56,37 @@ bool Engine::init()
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
     
     return success;
+}
+
+bool Engine::initTexture()
+{
+    if( boardTexture.loadFile("assets/Background.png") && //Initialize board texture
+        jewelTexture[Red].loadFile("assets/gemRed.png") && //Initialize jewels texture
+        jewelTexture[Green].loadFile("assets/gemGreen.png") &&
+        jewelTexture[Blue].loadFile("assets/gemBlue.png") &&
+        jewelTexture[Orange].loadFile("assets/gemOrange.png") &&
+        jewelTexture[White].loadFile("assets/gemWhite.png") &&
+        selectorTexture.loadFile("assets/selector.png")) //Initialize selector texture
+    return true;
+    else return false;
+}
+
+void Engine::exit()
+{
+    SDL_DestroyRenderer(renderer);
+    renderer = NULL;
+    SDL_DestroyWindow(window);
+    window = NULL;
+    IMG_Quit();
+    SDL_Quit();
+}
+
+void Engine::render()
+{
+    SDL_RenderPresent(renderer);
+}
+
+void Engine::renderClear()
+{
+    SDL_RenderClear(renderer);
 }

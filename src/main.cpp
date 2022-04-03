@@ -1,10 +1,10 @@
 #include "Game.h"
-#define VERSION 1.1.1
+#define VERSION 1.2
 
 /* 
-Version 1.1.1
-    Improve performance
-    Improve security
+    v1.2
+    - Reduce class dependency
+    - Prepare for font support
 */
 
 int main(int argc, char* args[])

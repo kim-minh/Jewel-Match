@@ -1,44 +1,8 @@
 #include "Jewels.h"
 
-Jewel::Jewel(const int& rows, const int& cols) : GameBoard(rows, cols)
+Jewel::Jewel(const int& nRows, const int& nCols) : GameBoard(nRows, nCols) 
 {
-    //Initialize texture
-    jewelTexture[Destroyed] = NULL;
-    jewelTexture[Red] = IMG_LoadTexture(renderer, "assets/gemRed.png");
-    jewelTexture[Green] = IMG_LoadTexture(renderer, "assets/gemGreen.png");
-    jewelTexture[Blue] = IMG_LoadTexture(renderer, "assets/gemBlue.png");
-    jewelTexture[Orange] = IMG_LoadTexture(renderer, "assets/gemOrange.png");
-    jewelTexture[White] = IMG_LoadTexture(renderer, "assets/gemWhite.png");
-    for(int i = 1; i < Total; i++){
-        if(jewelTexture[i] == NULL){
-            LogIMG("IMG_Load");
-        }
-    }
-}
-
-Jewel::~Jewel()
-{
-    for(int i = 0; i < Total; i++){
-        SDL_DestroyTexture(jewelTexture[i]);
-        jewelTexture[i] = NULL;
-    }
-}
-
-void Jewel::renderJewel()
-{
-    updateBoard();
-    for(int x = 0; x < nRows; x++) {
-        for(int y = 0; y < nCols; y++) {
-            int COLOR = board[x][y];
-            SDL_RenderCopy(renderer, jewelTexture[COLOR], NULL, &square[x][y]);
-        }
-    }
-}
-
-void Jewel::updateJewel()
-{   
-    renderJewel();
-    SDL_RenderPresent(renderer);
+    selected = pressed = false;
 }
 
 void Jewel::randomize(){
@@ -52,6 +16,23 @@ void Jewel::randomize(){
         clear();
         refill();
     }
+}
+
+void Jewel::renderJewel()
+{
+    engine.boardTexture.render(NULL);
+    for(int x = 0; x < nRows; x++) {
+        for(int y = 0; y < nCols; y++) {
+            int COLOR = board[x][y];
+            engine.jewelTexture[COLOR].render(&square[x][y]);
+        }
+    }
+}
+
+void Jewel::updateJewel()
+{   
+    renderJewel();
+    engine.render();
 }
 
 bool Jewel::match3(const int& row, const int& col, const std::string& direction)
@@ -101,4 +82,16 @@ bool Jewel::existMatch()
         }    
     }
     return exist;
+}
+
+void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
+{
+    renderJewel();
+    if(selected){
+        engine.selectorTexture.render(&square[selectedX][selectedY]);
+    }
+    if(pressed) {
+        engine.selectorTexture.render(&square[x][y]);
+    }
+    engine.render();
 }

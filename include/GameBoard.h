@@ -2,16 +2,13 @@
 #define GAME_BOARD_H
 #include "Engine.h"
 #include <vector>
+using std::vector;
 
-using namespace std;
-
-class GameBoard : protected Engine
+class GameBoard
 {
-    private:
-        //Board texture
-        SDL_Texture* boardTexture;
-
     protected:
+        Engine engine;
+
         //Board size
         const int nRows, nCols;
 
@@ -24,11 +21,7 @@ class GameBoard : protected Engine
         //Jewels to be removed
         vector<vector<bool> > pendingRemoval;
 
-        GameBoard(const int& rows, const int& cols);
-        ~GameBoard();
-
-        //Render board
-        void updateBoard();
+        GameBoard(const int& nRows, const int& nCols);
 
         //Clear matching jewels
         void clear();

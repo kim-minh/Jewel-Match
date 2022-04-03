@@ -1,12 +1,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <string>
-#include "Log.h"
-
-//Jewels in squares
-enum Jewels{Destroyed, Red, Green, Blue, Orange, White, Total};
+#include "Texture.h"
 
 class Engine
 {
@@ -20,15 +14,36 @@ class Engine
         //Window icon
         SDL_Surface* icon;
 
+        //Font
+        TTF_Font* gFont;
+
         //Initialize Engine
         bool init();
 
-    protected:
-        SDL_Window* window;
-        SDL_Renderer* renderer;
-    
+        //Initialize Texture
+        bool initTexture();
+
+        void exit();
+
+    public:
         Engine();
         ~Engine();
+        
+        //Board texture
+        Texture boardTexture;
+
+        //Jewels textures
+        Texture jewelTexture[Total];
+        
+        //Selector texture
+        Texture selectorTexture;
+
+        //Font texture;
+        Texture font;
+
+        void render();
+
+        void renderClear();
 };
 
 #endif

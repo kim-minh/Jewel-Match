@@ -2,15 +2,12 @@
 #define JEWELS_H
 #include "GameBoard.h"
 
-class Jewel : protected GameBoard
+class Jewel : private GameBoard
 {
     private:
-        //Jewels textures
-        SDL_Texture* jewelTexture[Total];
         friend class Game;
 
         Jewel(const int& rows, const int& cols);
-        ~Jewel();
 
         //Render jewels
         void renderJewel();
@@ -26,6 +23,12 @@ class Jewel : protected GameBoard
         
         //Check if exists at least 3 jewels matched
         bool existMatch();
+
+        //Check if a jewel was selected
+        bool pressed, selected;
+
+        //Draw selector
+        void renderSelector(int selectedX, int selectedY, int x, int y);
 };
 
 #endif
