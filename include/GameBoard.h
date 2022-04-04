@@ -29,6 +29,7 @@ class GameBoard
         void renderBoard(int score);
 
         //Render timer
+        int time;
         void renderTimer();
         SDL_Rect timeBoard;
 

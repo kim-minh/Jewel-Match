@@ -1,11 +1,10 @@
 #include "Game.h"
-#define VERSION 1.5
+#define VERSION 1.5.5
 
 /* 
-    v1.5
-    - Add timer
-    - Improve score calculation
-    - Restructured texture code
+    v1.5.5 changelog:
+    - Slightly change score board's and timer's position
+    - Improve timer to display in minutes : seconds
 */
 
 int main(int argc, char* args[])
