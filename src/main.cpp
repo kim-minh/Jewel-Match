@@ -1,10 +1,11 @@
 #include "Game.h"
-#define VERSION 1.3.1
+#define VERSION 1.5
 
 /* 
-    v1.3.1
-    - Add score
-    - Fix score calculation
+    v1.5
+    - Add timer
+    - Improve score calculation
+    - Restructured texture code
 */
 
 int main(int argc, char* args[])

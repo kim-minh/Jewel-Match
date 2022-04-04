@@ -26,6 +26,8 @@ class Game
         //Check if application is running
         bool running;
 
+        static Uint32 callback(Uint32 interval, void* param);
+
     public:
         Game(const int& nRows, const int& nCols);
 };

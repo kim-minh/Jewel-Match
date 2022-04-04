@@ -28,14 +28,20 @@ class GameBoard
         //Render game boards
         void renderBoard(int score);
 
+        //Render timer
+        void renderTimer();
+        SDL_Rect timeBoard;
+
+        //Render score
+        void renderScore(int score);
+        int score;
+        int scoreCalculate();
+
         //Clear matching jewels
         void clear();
 
         //Refill jewels
         void refill();
-        
-        int score;
-        int scoreCalculate();
 };
 
 #endif

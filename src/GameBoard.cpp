@@ -28,7 +28,16 @@ GameBoard::GameBoard(const int& nRows, const int& nCols) : nRows(nRows), nCols(n
     scoreBoard.w = 192;
     scoreBoard.h = 50;
 
-    engine.letterFont.loadText("score");
+    //Initialize time board
+    timeBoard.x = 15;
+    timeBoard.y = 400;
+    timeBoard.w = 192;
+    timeBoard.h = 71;
+
+    engine.timer.start();
+
+    engine.gFont[0].loadText("score");
+    engine.gFont[1].loadText("time");
 }
 
 int GameBoard::scoreCalculate()
@@ -40,7 +49,7 @@ int GameBoard::scoreCalculate()
                 count++;
         }
     }
-    return (count / 3) * 100 + (count % 3) * 30;
+    return (count / 3) * 100 + (count % 3) * (rand() % 10 + 30);
 }
 
 void GameBoard::clear()
@@ -81,10 +90,25 @@ void GameBoard::refill()
 
 void GameBoard::renderBoard(int score)
 {
-    engine.renderClear();
     engine.boardTexture.render(NULL);
+    renderScore(score);
+    renderTimer();
+
+}
+
+void GameBoard::renderScore(int score)
+{
     engine.scoreTexture.render(&scoreBoard);
-    engine.letterFont.renderNew(70, 50);
-    engine.numberFont.loadText(std::to_string(score));
-    engine.numberFont.renderNew(20, 105);
+    engine.gFont[0].renderNew(70, 50);
+    engine.scoreFont.loadText(std::to_string(score));
+    engine.scoreFont.renderNew(20, 105);
+}
+
+void GameBoard::renderTimer()
+{
+    int time = 120 - engine.timer.getTicks();
+    engine.timerTexture.render(&timeBoard);
+    engine.gFont[1].renderNew(70, 350);
+    engine.timerFont.loadText(std::to_string(time));
+    engine.timerFont.renderNew(20, 405);
 }

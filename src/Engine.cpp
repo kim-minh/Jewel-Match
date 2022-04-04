@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "common.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -27,7 +28,7 @@ Engine::~Engine()
 
 bool Engine::init()
 {
-    if(SDL_Init(SDL_INIT_VIDEO) < 0){
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0){
         LogSDL("SDL_Init");
         success = false;
     }
@@ -76,30 +77,24 @@ bool Engine::initTexture()
         jewelTexture[Orange].loadFile("assets/gemOrange.png") &&
         jewelTexture[White].loadFile("assets/gemWhite.png") &&
         selectorTexture.loadFile("assets/selector.png") && //Initialize selector texture
-        scoreTexture.loadFile("assets/scoreBackground.png")) //Initialize score texture
+        scoreTexture.loadFile("assets/scoreBackground.png") && //Initialize score texture
+        timerTexture.loadFile("assets/timeBackground.png")) // Initialize timer background
     return true;
     else return false;
 }
 
 bool Engine::initFont()
 {
-    letterFont.font = TTF_OpenFont("assets/fuenteNormal.ttf", 40);
-    if(letterFont.font == NULL) {
-        LogTTF("TTF_OpenFont");
-        success = false;
-    }
-    numberFont.font = TTF_OpenFont("assets/fuentelcd.ttf", 35);
-    if(numberFont.font == NULL) {
-        LogTTF("TTF_OpenFont");
-        success = false;
-    }
-    return success;
+    if( gFont[0].openFont("assets/fuenteNormal.ttf", 40) && //Initialize game font
+        gFont[1].openFont("assets/fuenteNormal.ttf", 40) &&
+        scoreFont.openFont("assets/fuentelcd.ttf", 35) && //Initialize score font
+        timerFont.openFont("assets/fuentelcd.ttf", 55)) //Initialize timer font
+    return true;
+    else return false;
 }
 
 void Engine::exit()
 {
-    TTF_CloseFont(letterFont.font);
-    TTF_CloseFont(numberFont.font);
     SDL_DestroyRenderer(renderer);
     renderer = NULL;
     SDL_DestroyWindow(window);
@@ -114,7 +109,10 @@ void Engine::render()
     SDL_RenderPresent(renderer);
 }
 
-void Engine::renderClear()
+void Engine::renderClear(SDL_Rect* rect)
 {
-    SDL_RenderClear(renderer);
+    if(rect != NULL) {
+        SDL_RenderFillRect(renderer, rect);
+    }
+    else SDL_RenderClear(renderer);
 }

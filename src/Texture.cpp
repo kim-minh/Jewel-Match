@@ -1,9 +1,11 @@
 #include "Texture.h"
+#include "common.h"
 
 Texture::Texture()
 {
 	//Initialize
 	texture = NULL;
+	font = NULL;
 	width = 0;
 	height = 0;
 }
@@ -22,12 +24,26 @@ bool Texture::loadFile( std::string path )
 	newTexture = IMG_LoadTexture(renderer, path.c_str());
 	if(newTexture == NULL) {
 		LogIMG("IMG_Load");
-
 	}
 	SDL_QueryTexture(newTexture, NULL, NULL, &width, &height);
 
 	texture = newTexture;
 	return texture != NULL;
+}
+
+bool Texture::openFont(std::string path, int size)
+{
+	if(font != NULL) {
+		TTF_CloseFont(font);
+	}
+
+	TTF_Font* newFont = NULL;
+	newFont = TTF_OpenFont(path.c_str(), size);
+	if(newFont == NULL) {
+		LogTTF("TTF_OpenFont");
+	}
+	font = newFont;
+	return font != NULL;
 }
 
 bool Texture::loadText(std::string textureText)
