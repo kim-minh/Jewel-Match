@@ -1,8 +1,9 @@
 #ifndef ENGINE_H
 #define ENGINE_H
+#include "Timer.h"
 #include "Texture.h"
 #include "Text.h"
-#include "Timer.h"
+#include "Sound.h"
 
 //Jewels in squares
 enum Jewels{Destroyed, Red, Green, Blue, Orange, Yellow, Purple, White, Total};
@@ -30,37 +31,37 @@ class Engine
         //Initialize Font
         bool initFont();
 
+        //Initialiize Sound
+        bool initSound();
+
         void exit();
 
     public:
         Engine();
         ~Engine();
-        
-        //Board texture
-        Texture boardTexture;
 
-        //Jewels textures
-        Texture jewelTexture[Total];
-        
-        //Selector texture
-        Texture selectorTexture;
-
-        //Score texture
-        Texture scoreTexture;
-        Text score;
-
-        //Timer
         Timer timer;
-        Texture timerTexture;
-        Text times;
+        
+        //Textures
+        Texture boardTexture; //Board texture
+        Texture jewelTexture[Total]; //Jewels textures
+        Texture selectorTexture; //Selector texture
+        Texture scoreTexture; //Score texture
+        Texture timerTexture; //Timer texture
+        Texture startTexture; //Start screen texture
+        Texture endTexture; //End screen texture
 
-        //Game font;
-        Text scoreText;
-        Text timeText;
-
-        //Game state texture
-        Texture startTexture;
-        Texture endTexture;
+        //Texts
+        Text score; //Score
+        Text times; //Remaing time
+        Text scoreText; // "score" text
+        Text timeText; // "time" text
+        
+        //Sounds
+        Sound music;
+        Sound startSFX;
+        Sound endSFX;
+        Sound matchSFX[3];
 
         //Update screen
         void render();

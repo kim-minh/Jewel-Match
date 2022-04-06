@@ -1,6 +1,6 @@
 #include "Jewels.h"
 
-Jewel::Jewel(const int& nRows, const int& nCols) : GameBoard(nRows, nCols) 
+Jewel::Jewel(const int& nRows, const int& nCols, int time) : GameBoard(nRows, nCols, time) 
 {
     selected = pressed = false;
 }
@@ -88,7 +88,7 @@ bool Jewel::existMatch()
 void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
 {
     renderJewel();
-    if(selected){
+    if(selected) {
         engine.selectorTexture.renderRect(&square[selectedX][selectedY]);
     }
     if(pressed) {

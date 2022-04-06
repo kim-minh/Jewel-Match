@@ -1,19 +1,15 @@
 #include "Game.h"
-#define VERSION 2.0
+#define VERSION 2.1
 
 /* 
-    v2.0 changelog:
-    - Update game font
-    - Remove unused fonts and images
-    - Add start screen and game over screen
-    - Split Texture into another Text class
-    - Replace SDL_Delay with SDL_GetTick
-    - Add additional jewels
-    - Other optimizations
+    v2.1 changelog:
+    - Add music and sound effects
+    - Fix some bugs
+    - Clean up leftover
 */
 
 int main(int argc, char* args[])
 {
-    Game game(8, 8);
+    Game game(8, 8, 120);
     return 0;
 }

@@ -21,9 +21,9 @@ class GameBoard
         //Jewels to be removed
         vector<vector<bool> > pendingRemoval;
 
-        SDL_Rect scoreBoard;
+        bool gameover;
 
-        GameBoard(const int& nRows, const int& nCols);
+        GameBoard(const int& nRows, const int& nCols, int time);
 
         //Game start screen
         void renderStart();
@@ -33,12 +33,13 @@ class GameBoard
         //Render game boards
         void renderBoard(int score);
 
-        Uint32 time;
         //Render timer
-        void renderTimer();
         SDL_Rect timeBoard;
+        Uint32 time;
+        void renderTimer();
 
         //Render score
+        SDL_Rect scoreBoard;
         void renderScore(int score);
         int score;
         int scoreCalculate();
@@ -48,8 +49,6 @@ class GameBoard
 
         //Refill jewels
         void refill();
-
-        bool gameOver;
 };
 
 #endif

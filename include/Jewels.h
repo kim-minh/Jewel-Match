@@ -7,7 +7,7 @@ class Jewel : private GameBoard
     private:
         friend class Game;
 
-        Jewel(const int& rows, const int& cols);
+        Jewel(const int& nRows, const int& nCols, int time);
 
         //Render jewels
         void renderJewel();

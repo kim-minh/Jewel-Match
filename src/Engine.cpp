@@ -16,7 +16,11 @@ Engine::Engine() : WINDOW_WIDTH(800), WINDOW_HEIGHT(600), TITLE("Jewel Match")
         exit();
     }
     else if(!initFont()) {
-        Error("Unable to load Font!");
+        Error("Unable to load Fonts!");
+        exit();
+    }
+    else if(!initSound()) {
+        Error("Unable to load Sounds");
         exit();
     }
 }
@@ -28,7 +32,7 @@ Engine::~Engine()
 
 bool Engine::init()
 {
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0){
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0){
         LogSDL("SDL_Init");
         success = false;
     }
@@ -40,6 +44,11 @@ bool Engine::init()
 
     if(TTF_Init() == -1) {
         LogTTF("TTF_Init");
+        success = false;
+    }
+
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0){
+        LogMixer("Mixer_OpenAudio");
         success = false;
     }
 
@@ -96,8 +105,17 @@ bool Engine::initFont()
     return false;
 
     //Load static text
-    else if(!scoreText.loadText("score") ||
-            !timeText.loadText("time"))
+    else if(!scoreText.loadText("score") || !timeText.loadText("time"))
+        return false;
+
+    else return true;
+}
+
+bool Engine::initSound()
+{
+    if( !music.loadMusic("assets/music.ogg") || !matchSFX[0].loadSFX("assets/match1.ogg") ||
+        !matchSFX[1].loadSFX("assets/match2.ogg") || !matchSFX[2].loadSFX("assets/match3.ogg") ||
+        !startSFX.loadSFX("assets/gamestart.ogg") || !endSFX.loadSFX("assets/gameover.ogg"))
     return false;
 
     else return true;
@@ -109,6 +127,7 @@ void Engine::exit()
     renderer = NULL;
     SDL_DestroyWindow(window);
     window = NULL;
+    Mix_Quit();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
