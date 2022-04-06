@@ -1,10 +1,11 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #include "Texture.h"
+#include "Text.h"
 #include "Timer.h"
 
 //Jewels in squares
-enum Jewels{Destroyed, Red, Green, Blue, Orange, White, Total};
+enum Jewels{Destroyed, Red, Green, Blue, Orange, Yellow, Purple, White, Total};
 
 class Engine
 {
@@ -46,19 +47,23 @@ class Engine
 
         //Score texture
         Texture scoreTexture;
-        Texture scoreFont;
+        Text score;
 
         //Timer
         Timer timer;
         Texture timerTexture;
-        Texture timerFont;
+        Text times;
 
         //Game font;
-        Texture gFont[2];
+        Text scoreText;
+        Text timeText;
 
+        //Game state texture
+        Texture startTexture;
+        Texture endTexture;
+
+        //Update screen
         void render();
-
-        void renderClear(SDL_Rect* rect);
 };
 
 #endif

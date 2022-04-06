@@ -36,8 +36,7 @@ void Timer::stop()
 void Timer::pause()
 {
     //If the timer is running and isn't already paused
-    if( started && !paused )
-    {
+    if(started && !paused) {
         //Pause the timer
         paused = true;
 
@@ -50,8 +49,7 @@ void Timer::pause()
 void Timer::unpause()
 {
     //If the timer is running and paused
-    if( started && paused )
-    {
+    if(started && paused) {
         //Unpause the timer
         paused = false;
 
@@ -63,27 +61,37 @@ void Timer::unpause()
     }
 }
 
+bool Timer::countdown(Uint32 timer)
+{
+    if(!isStarted()) {
+        start();
+    }
+    int time_left = timer - getTicks();
+    time = time_left / 1000;
+    if(time_left <= 0) {
+        stop();
+        return false;
+    }
+    return true;
+}
+
 Uint32 Timer::getTicks()
 {
 	//The actual timer time
 	Uint32 time = 0;
 
     //If the timer is running
-    if( started )
-    {
+    if(started) {
         //If the timer is paused
-        if( paused )
-        {
+        if(paused) {
             //Return the number of ticks when the timer was paused
             time = pausedTicks;
         }
-        else
-        {
+        else {
             //Return the current time minus the start time
-            time = (SDL_GetTicks() - startTicks) / 1000;
+            time = SDL_GetTicks() - startTicks;
         }
     }
-
     return time;
 }
 

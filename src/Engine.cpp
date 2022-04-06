@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "common.h"
+#include "Log.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -49,7 +49,7 @@ bool Engine::init()
         success = false;
     }
 
-    icon = IMG_Load("assets/icon.png");
+    icon = IMG_Load("assets/gemBlue.png");
     if(icon == NULL){
         LogIMG("IMG_Load");
         success = false;
@@ -70,27 +70,37 @@ bool Engine::init()
 
 bool Engine::initTexture()
 {
-    if( boardTexture.loadFile("assets/Background.png") && //Initialize board texture
-        jewelTexture[Red].loadFile("assets/gemRed.png") && //Initialize jewels texture
+    if( boardTexture.loadFile("assets/Background.png") &&
+        jewelTexture[Red].loadFile("assets/gemRed.png") &&
         jewelTexture[Green].loadFile("assets/gemGreen.png") &&
         jewelTexture[Blue].loadFile("assets/gemBlue.png") &&
         jewelTexture[Orange].loadFile("assets/gemOrange.png") &&
+        jewelTexture[Yellow].loadFile("assets/gemYellow.png") &&
+        jewelTexture[Purple].loadFile("assets/gemPurple.png") &&
         jewelTexture[White].loadFile("assets/gemWhite.png") &&
-        selectorTexture.loadFile("assets/selector.png") && //Initialize selector texture
-        scoreTexture.loadFile("assets/scoreBackground.png") && //Initialize score texture
-        timerTexture.loadFile("assets/timeBackground.png")) // Initialize timer background
+        selectorTexture.loadFile("assets/selector.png") &&
+        scoreTexture.loadFile("assets/scoreBackground.png") &&
+        timerTexture.loadFile("assets/timeBackground.png") &&
+        startTexture.loadFile("assets/startBackground.png") &&
+        endTexture.loadFile("assets/endBackground.png"))
     return true;
+
     else return false;
 }
 
 bool Engine::initFont()
 {
-    if( gFont[0].openFont("assets/fuenteNormal.ttf", 40) && //Initialize game font
-        gFont[1].openFont("assets/fuenteNormal.ttf", 40) &&
-        scoreFont.openFont("assets/fuentelcd.ttf", 35) && //Initialize score font
-        timerFont.openFont("assets/fuentelcd.ttf", 55)) //Initialize timer font
-    return true;
-    else return false;
+    //Open font
+    if( !scoreText.openFont(30) || !timeText.openFont(30) || !score.openFont(35) ||
+        !times.openFont(75))
+    return false;
+
+    //Load static text
+    else if(!scoreText.loadText("score") ||
+            !timeText.loadText("time"))
+    return false;
+
+    else return true;
 }
 
 void Engine::exit()
@@ -107,12 +117,4 @@ void Engine::exit()
 void Engine::render()
 {
     SDL_RenderPresent(renderer);
-}
-
-void Engine::renderClear(SDL_Rect* rect)
-{
-    if(rect != NULL) {
-        SDL_RenderFillRect(renderer, rect);
-    }
-    else SDL_RenderClear(renderer);
 }

@@ -1,8 +1,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include "Log.h"
+#include "common.h"
 
 class Texture
 {
@@ -24,22 +23,15 @@ class Texture
 		//Deallocates memory
 		~Texture();
 
-		TTF_Font* font;
-
 		//Loads image at specified path
-		bool loadFile( std::string path );
+		bool loadFile(std::string path);
 
-		//Open font
-		bool openFont(std::string path, int size);
-		
-		//Creates image from font string
-		bool loadText(std::string textureText);
-
-		//Renders texture to an existing SDL_Rect
-		void render(SDL_Rect* renderRect);
+		/* Renders texture to an existing SDL_Rect
+		   rect = NULL if render to entire screen */
+		void renderRect(SDL_Rect* rect);
 
 		//Renders to a new SDL_Rect from image's dimensions
-		void renderNew(int x, int y);
+		void renderNewRect(int x, int y);
 
 };
 

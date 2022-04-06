@@ -25,11 +25,16 @@ class GameBoard
 
         GameBoard(const int& nRows, const int& nCols);
 
+        //Game start screen
+        void renderStart();
+        //Game end screen
+        void renderEnd();
+
         //Render game boards
         void renderBoard(int score);
 
+        Uint32 time;
         //Render timer
-        int time;
         void renderTimer();
         SDL_Rect timeBoard;
 
@@ -43,6 +48,8 @@ class GameBoard
 
         //Refill jewels
         void refill();
+
+        bool gameOver;
 };
 
 #endif

@@ -2,11 +2,43 @@
 
 Game::Game(const int& nRows, const int& nCols) : jewel(nRows, nCols)
 {
-    x = y = 0;
+    gameStarted = false;
     running = true;
+
+    startGame();
     jewel.randomize();
     jewel.updateJewel();
+
+    x = y = 0;
     loop();
+}
+
+void Game::startGame()
+{
+    while(!gameStarted && running && SDL_WaitEvent(&e)) {
+        if(e.type == SDL_QUIT)
+            running = false;
+        else {
+            jewel.renderStart();
+            if(e.type == SDL_KEYDOWN) {
+                if(e.key.keysym.sym == SDLK_RETURN)
+                    gameStarted = true;
+            }
+        }
+    }
+}
+
+void Game::endGame()
+{
+    jewel.renderEnd();
+    if(e.type == SDL_KEYDOWN) {
+        if(e.key.keysym.sym == SDLK_RETURN) {
+            jewel.randomize();
+            jewel.gameOver = false;
+            timerID = SDL_AddTimer(1000, callback, NULL);
+            while(delay.countdown(750));
+        }
+    }
 }
 
 void Game::updateGame()
@@ -14,7 +46,7 @@ void Game::updateGame()
     while(jewel.existMatch()) {
         jewel.clear();
         jewel.updateJewel();
-        SDL_Delay(500);
+        while(delay.countdown(500));
         jewel.refill();
         jewel.updateJewel();
     }
@@ -39,19 +71,25 @@ Uint32 Game::callback(Uint32 interval, void* param)
 
 void Game::loop()
 {
-    SDL_TimerID timerID = SDL_AddTimer(1000, callback, NULL);
+    timerID = SDL_AddTimer(1000, callback, NULL);
     while(running && SDL_WaitEvent(&e)) {
         if(e.type == SDL_QUIT)
             running = false;
-        if(e.type == SDL_KEYDOWN) {
-            if(!jewel.pressed){
-                jewel.pressed = true;
-            }
-            else swapJewels();
-            jewel.renderSelector(selectedX, selectedY, x, y);
-            updateGame();
+        if(jewel.gameOver) {
+            SDL_RemoveTimer(timerID);
+            endGame();
         }
-        else jewel.renderSelector(selectedX, selectedY, x, y);
+        else {
+            if(e.type == SDL_KEYDOWN) {
+                if(!jewel.pressed) {
+                    jewel.pressed = true;
+                }
+                else swapJewels();
+                jewel.renderSelector(selectedX, selectedY, x, y);
+                updateGame();
+            }
+            else jewel.renderSelector(selectedX, selectedY, x, y);
+        }
     }
     SDL_RemoveTimer(timerID);
 }
@@ -116,11 +154,11 @@ void Game::swapJewels()
                 if(x != selectedX || y != selectedY) {
                     std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
                     jewel.updateJewel();
-                    SDL_Delay(300);
+                    while(delay.countdown(300));
                     if(!jewel.existMatch()) {
                         std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
                         jewel.updateJewel();
-                        SDL_Delay(300);
+                        while(delay.countdown(300));
                     }
                     x = y = 0;
                     jewel.pressed = false;
