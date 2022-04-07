@@ -1,6 +1,6 @@
 #include "Jewels.h"
 
-Jewel::Jewel(const int& nRows, const int& nCols, int time) : GameBoard(nRows, nCols, time) 
+Jewel::Jewel(const int &nRows, const int &nCols, int time) : GameBoard(nRows, nCols, time) 
 {
     selected = pressed = false;
 }
@@ -36,7 +36,7 @@ void Jewel::updateJewel()
     engine.render();
 }
 
-bool Jewel::match3(const int& row, const int& col, const std::string& direction)
+bool Jewel::match3(const int &row, const int &col, const std::string& direction)
 {
     int stepX, stepY;
     if(direction == "HORIZONTAL") {
