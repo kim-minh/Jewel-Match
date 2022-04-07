@@ -10,7 +10,7 @@ Game::Game(const int &nRows, const int &nCols, int time) : jewel(nRows, nCols, t
     jewel.updateJewel();
 
     x = y = 0;
-    loop();
+    run();
 }
 
 void Game::startGame()
@@ -69,7 +69,7 @@ void Game::updateGame()
     }
 }
 
-void Game::loop()
+void Game::run()
 {
     while(running && SDL_WaitEvent(&e)) {
         if(e.type == SDL_QUIT)
@@ -102,6 +102,7 @@ void Game::loop()
                     }
                 }
             }
+            //TimerID event
             else jewel.renderSelector(selectedX, selectedY, x, y);
         }
     }
@@ -123,6 +124,7 @@ void Game::keyControl()
             else if(x == -1)
                 x = nRows - x - 2;
             break;
+
         case SDLK_DOWN: case SDLK_s:
             x++;
             if(jewel.selected) {
@@ -135,6 +137,7 @@ void Game::keyControl()
             else if(x == nRows)
                 x = 0;
             break;
+
         case SDLK_LEFT: case SDLK_a:
             y--;
             if(jewel.selected) {
@@ -147,6 +150,7 @@ void Game::keyControl()
             else if(y == -1)
                 y = nCols - y - 2;
             break;
+
         case SDLK_RIGHT: case SDLK_d:
             y++;
             if(jewel.selected) {
@@ -159,6 +163,7 @@ void Game::keyControl()
             else if(y == nRows)
                 y = 0;
             break;
+            
         case SDLK_RETURN: case SDLK_SPACE:
             swapJewels();
             break;
@@ -171,16 +176,30 @@ void Game::mouseControl()
     switch(e.type) {
         case SDL_MOUSEMOTION:
             if(jewel.selected) {
-                if( x > selectedX + 1 || x < selectedX - 1 || 
-                    y > selectedY + 1 || y < selectedY - 1 ||
-                    x > selectedX && y > selectedY || x < selectedX && y < selectedY ||
-                    x > selectedX && y < selectedY || x < selectedX && y > selectedY) {
+                if(!swapCheck())
                     jewel.pressed = false;
-                }
+                if(click)
+                    drag = true;
+                else drag = false;
             }
             break;
+
         case SDL_MOUSEBUTTONDOWN:
-            swapJewels();
+            click = true;
+            if(drag) {
+                selectedX = x;
+                selectedY = y;
+                jewel.selected = true;
+            }
+            else swapJewels();
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+            if(drag) {
+                swapJewels();
+            }
+            else click = false;
+            drag = false;
             break;
     }
 }
@@ -193,7 +212,7 @@ void Game::swapJewels()
         jewel.selected = true;
     }
     else {
-        if(x != selectedX || y != selectedY) {
+        if(swapCheck()) {
             std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
             jewel.updateJewel();
             while(delay.countdown(300));
@@ -229,4 +248,14 @@ Uint32 Game::callback(Uint32 interval, void* param)
 
     SDL_PushEvent(&event);
     return(interval);
+}
+
+bool Game::swapCheck()
+{
+    if( x > selectedX + 1 || x < selectedX - 1 || 
+        y > selectedY + 1 || y < selectedY - 1 ||
+        x > selectedX && y > selectedY || x < selectedX && y < selectedY ||
+        x > selectedX && y < selectedY || x < selectedX && y > selectedY)
+        return false;
+    else return true;
 }
