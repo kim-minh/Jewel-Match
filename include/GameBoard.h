@@ -21,8 +21,6 @@ class GameBoard
         //Jewels to be removed
         vector<vector<bool> > pendingRemoval;
 
-        bool gameover;
-
         GameBoard(const int &nRows, const int &nCols, int time);
 
         //Game start screen

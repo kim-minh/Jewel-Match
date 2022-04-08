@@ -2,7 +2,7 @@
 
 Jewel::Jewel(const int &nRows, const int &nCols, int time) : GameBoard(nRows, nCols, time) 
 {
-    selected = pressed = false;
+    selected = pressed = hint = false;
 }
 
 void Jewel::randomize(){
@@ -15,8 +15,8 @@ void Jewel::randomize(){
     while(existMatch()){
         clear();
         refill();
-        score = 0;
     }
+    score = 0;
 }
 
 void Jewel::renderJewel()
@@ -36,7 +36,7 @@ void Jewel::updateJewel()
     engine.render();
 }
 
-bool Jewel::match3(const int &row, const int &col, const std::string& direction)
+bool Jewel::match3(const int &row, const int &col, const std::string &direction)
 {
     int stepX, stepY;
     if(direction == "HORIZONTAL") {
@@ -85,9 +85,52 @@ bool Jewel::existMatch()
     return exist;
 }
 
+bool Jewel::existHint()
+{
+    vector<vector<int> > tempBoard = board;
+    vector<vector<bool> > tempPending = pendingRemoval;
+    for(int x = 0; x < nRows - 1; x++) {
+        for(int y = 0; y < nCols - 1; y++) {
+            //Horizontal check
+            std::swap(board[x][y], board[x+1][y]);
+            if(existMatch()) {
+                //Set hint position
+                hintX = x; hintY = y; hintX_ = x+1; hintY_ = y;
+                board = tempBoard;
+                pendingRemoval = tempPending;
+                return true;
+            }
+            else board = tempBoard;
+            
+            //Vertical check
+            std::swap(board[x][y], board[x][y+1]);
+            if(existMatch()) {
+                //Set hint position
+                hintX = x; hintY = y; hintX_ = x; hintY_ = y+1;
+                board = tempBoard;
+                pendingRemoval = tempPending;
+                return true;
+            }
+            else board = tempBoard;
+        }
+    }
+    return false;
+}
+
+void Jewel::displayHint()
+{
+    if(existHint()) {
+        engine.hintTexture.renderRect(&square[hintX][hintY]);
+        engine.hintTexture.renderRect(&square[hintX_][hintY_]);
+    }
+}
+
 void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
 {
     renderJewel();
+    if(hint) {
+        displayHint();
+    }
     if(selected) {
         engine.selectorTexture.renderRect(&square[selectedX][selectedY]);
     }

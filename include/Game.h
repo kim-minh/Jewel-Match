@@ -13,6 +13,7 @@ class Game
 
         //Delay function
         Timer delay;
+        Timer hint;
 
         Jewel jewel;
 

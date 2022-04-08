@@ -40,8 +40,7 @@ void Game::endGame()
         jewel.engine.music.stopMusic();
     }
     if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN || e.type == SDL_MOUSEBUTTONDOWN) {
-        jewel.randomize();
-        jewel.gameover = gameEnded = false;
+        gameover = gameEnded = false;
         jewel.engine.startSFX.playSFX();
         timerID = SDL_AddTimer(1000, callback, NULL);
         while(delay.countdown(750));
@@ -53,6 +52,11 @@ void Game::updateGame()
 {
     int count = 0;
     while(jewel.existMatch()) {
+        //Stop hint timer because matched
+        hint.stop();
+        jewel.hint = false;
+
+        //Choose which sfx to play
         count++;
         if(count == 1) {
             jewel.engine.matchSFX[0].playSFX();
@@ -61,6 +65,8 @@ void Game::updateGame()
             jewel.engine.matchSFX[1].playSFX();
         }
         else jewel.engine.matchSFX[2].playSFX();
+
+        //Matching actions
         jewel.clear();
         jewel.updateJewel();
         while(delay.countdown(700));
@@ -74,21 +80,29 @@ void Game::run()
     while(running && SDL_WaitEvent(&e)) {
         if(e.type == SDL_QUIT)
             running = false;
-        if(jewel.gameover) {
+        if(!jewel.existHint()) {
+            gameover = true;
+        }
+        if(gameover) {
             SDL_RemoveTimer(timerID);
+            hint.stop();
             endGame();
         }
         else {
+            //Start hint timer, display hint if return false
+            if(!hint.countdown(9000)) {
+                jewel.hint = true;
+            }
             if(e.type == SDL_KEYDOWN) {
-                if(!jewel.pressed) {
-                    jewel.pressed = true;
+                if(!pressed) {
+                    pressed = true;
                 }
                 else keyControl();
                 jewel.renderSelector(selectedX, selectedY, x, y);
                 updateGame();
             }
             if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP) {
-                jewel.pressed = true;
+                pressed = true;
                 SDL_GetMouseState(&pos.x, &pos.y);
                 for(int x_ = 0; x_ < nRows; x_++) {
                     for(int y_ = 0; y_ < nCols; y_++) {
@@ -114,7 +128,7 @@ void Game::keyControl()
     switch(e.key.keysym.sym){
         case SDLK_UP: case SDLK_w:
             x--;
-            if(jewel.selected) {
+            if(selected) {
                 y = selectedY;
                 if(x < 0)
                     x = selectedX;
@@ -127,7 +141,7 @@ void Game::keyControl()
 
         case SDLK_DOWN: case SDLK_s:
             x++;
-            if(jewel.selected) {
+            if(selected) {
                 y = selectedY;
                 if(x < 0)
                     x = selectedX;
@@ -140,7 +154,7 @@ void Game::keyControl()
 
         case SDLK_LEFT: case SDLK_a:
             y--;
-            if(jewel.selected) {
+            if(selected) {
                 x = selectedX;
                 if(y < 0)
                     y = selectedY;
@@ -153,7 +167,7 @@ void Game::keyControl()
 
         case SDLK_RIGHT: case SDLK_d:
             y++;
-            if(jewel.selected) {
+            if(selected) {
                 x = selectedX;
                 if(y < 0)
                     y = selectedY;
@@ -175,9 +189,9 @@ void Game::mouseControl()
 {
     switch(e.type) {
         case SDL_MOUSEMOTION:
-            if(jewel.selected) {
+            if(selected) {
                 if(!swapCheck())
-                    jewel.pressed = false;
+                    pressed = false;
                 if(click)
                     drag = true;
                 else drag = false;
@@ -189,7 +203,7 @@ void Game::mouseControl()
             if(drag) {
                 selectedX = x;
                 selectedY = y;
-                jewel.selected = true;
+                selected = true;
             }
             else swapJewels();
             break;
@@ -206,10 +220,10 @@ void Game::mouseControl()
 
 void Game::swapJewels()
 {
-    if(!jewel.selected) {
+    if(!selected) {
         selectedX = x;
         selectedY = y;
-        jewel.selected = true;
+        selected = true;
     }
     else {
         if(swapCheck()) {
@@ -222,14 +236,14 @@ void Game::swapJewels()
                 while(delay.countdown(300));
             }
             else x = y = 0;
-            jewel.pressed = false;
+            pressed = false;
         }
         else {
             x = selectedX;
             y = selectedY;
-            jewel.pressed = true;
+            pressed = true;
         }
-        jewel.selected = false;
+        selected = false;
     }
 }
 

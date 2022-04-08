@@ -88,6 +88,7 @@ bool Engine::initTexture()
         jewelTexture[Purple].loadFile("assets/gemPurple.png") &&
         jewelTexture[White].loadFile("assets/gemWhite.png") &&
         selectorTexture.loadFile("assets/selector.png") &&
+        hintTexture.loadFile("assets/hint.png") &&
         scoreTexture.loadFile("assets/scoreBackground.png") &&
         timerTexture.loadFile("assets/timeBackground.png") &&
         startTexture.loadFile("assets/startBackground.png") &&
