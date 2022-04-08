@@ -16,12 +16,13 @@ void Jewel::randomize(){
         clear();
         refill();
     }
+    highscore = engine.savedHighscore;
     score = 0;
 }
 
 void Jewel::renderJewel()
 {
-    renderBoard(score);
+    renderBoard();
     for(int x = 0; x < nRows; x++) {
         for(int y = 0; y < nCols; y++) {
             int COLOR = board[x][y];

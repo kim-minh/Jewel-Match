@@ -1,10 +1,13 @@
 #include "Game.h"
-#define VERSION 2.4
+#define VERSION 2.5
 
 /* 
-    v2.4 changelog:
-    - Add high score
-    - Fix a bug impacting score
+    v2.5 changelog:
+    - Save high score to disk
+    - Add notice before game start
+    - Add custom cursor
+    - Delete bug because I can't fix it
+    - Cleanup unnecessary code
 */
 
 int main(int argc, char* args[])

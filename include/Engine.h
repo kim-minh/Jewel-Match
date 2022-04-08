@@ -20,25 +20,35 @@ class Engine
         //Window icon
         SDL_Surface* icon;
 
+        //Custom mouse cursor
+        SDL_Cursor *cursor;
+        SDL_Surface *cursorSurface;
+
         bool success;
 
         //Initialize Engine
         bool init();
-
         //Initialize Texture
         bool initTexture();
-
         //Initialize Font
         bool initFont();
-
         //Initialiize Sound
         bool initSound();
+
+        //Read save file
+        void initSave();
+
+        //Save high score to save file
+        bool save();
 
         void exit();
 
     public:
         Engine();
         ~Engine();
+
+        //Saved high score from save file
+        Sint32 savedHighscore;
 
         Timer timer;
         
@@ -53,12 +63,13 @@ class Engine
         Texture endTexture; //End screen texture
 
         //Texts
-        Text score; //Score
-        Text highscore; //High score
+        Text scores; //Score
+        Text highscores; //High score
         Text times; //Remaing time
         Text scoreText; // "score" text
         Text highscoreText; //"high score" text
         Text timeText; // "time" text
+        Text startNotice; // "START" notice text
         
         //Sounds
         Sound music;
