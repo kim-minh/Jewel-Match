@@ -1,25 +1,27 @@
 # Jewel Match
 Simple [Bejeweled](http://en.wikipedia.org/wiki/Bejeweled)/Match-3 game written in C++ and [SDL 2.0](http://www.libsdl.org). 
 
-This was built and tested on an **M1 Mac with macOS Monterey**, but should work on other systems as well.
+This was built and tested on an **M1 Mac with macOS Monterey**, but should work on other platforms as well.
 
 <img width="912" alt="Jewel Match" src="https://user-images.githubusercontent.com/100175752/162377547-785401ae-42c5-4781-8e48-de26e9242277.png">
 
-## Compilation Prerequisites
+## Build Instruction
 
-These instructions are for compilation with [Visual Studio Code](https://code.visualstudio.com/) on **macOS**. You can look for other compile instructions on [Lazyfoo](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php).
+These instructions are for compilation with [Visual Studio Code](https://code.visualstudio.com/) on **macOS**. You can look for other compile instructions on [Lazy Foo' Productions](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php).
 
-First, install [Homebrew](https://brew.sh) using **Terminal** and follow the instruction:
+### Prerequisites
 
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+- First, install [Homebrew](https://brew.sh) using **Terminal** and follow the instruction:
+
+    	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     
-Then do:
+- Then do:
 	
-    brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer
+    	brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer
     
-After that, clone the repo:
+- After that, clone the repo:
 
-    git clone https://github.com/kim-minh/Jewel-Match.git
+    	git clone https://github.com/kim-minh/Jewel-Match.git
     
 ### Configure Visual Studio Code: 
 
@@ -36,14 +38,14 @@ After that, clone the repo:
       "/opt/homebrew/include",
       "/opt/homebrew/lib"
       
-Finally, run build task in the directory of the cloned repo.      
+Finally, **Run Build Task** in the directory of the cloned repo.      
       
 ## Design Idea
 
 ### Game state:
 
-1. Initialize game's resources (textures, sounds)
-- If initialized unsuccessfully, quit program.
+1. Initialize game's resources (texture, audio, ... )
+- If unable to initialize, quit program and display error in **Terminal**.
 -  Move to state 2.
 2. Start screen
   - Board is initialized with random tiles that does not have any existing matches. Board is not drawn yet.
@@ -62,7 +64,7 @@ Finally, run build task in the directory of the cloned repo.
 6. Drop new tiles from above
   - Drops a single row of new tiles
   - Check the board for matches.
-  - If there are matching tiles, destroy those and redo state 6.
+  - If there are matching tiles, destroy those and repeat state 6.
 7. Board is now stable
   - Check if there is time left. If not, move to state 8.
   - Check if exist moves to match tiles. If not, randomize the tiles.
