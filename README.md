@@ -42,18 +42,18 @@ Finally, run build task in the directory of the cloned repo.
 
 ### Game state:
 
-1. Initialize game's resources (window, renderer, texture, audio)
-- If initialized unsuccessfully, exit program.
--  Else move to state 2.
+1. Initialize game's resources (textures, sounds)
+- If initialized unsuccessfully, quit program.
+-  Move to state 2.
 2. Start screen
-  - Board is initialized with random tiles that does not have any existing matches. Board is not drawn.
+  - Board is initialized with random tiles that does not have any existing matches. Board is not drawn yet.
   - Check if there are any possible moves. There is a chance that the board will be generated without any possible moves.
   - If no moves are available, recreate the board.
 3. Ready
-  - Board is ready to be played (key press/mouse clicked)
+  - Board is ready to be played (key press)
   - Start timer (Default is 120 seconds)
 4. Idle detection
-  - Check if there are any matching tiles from user interaction.
+  - Check if there are any matching tiles due to user interaction.
   - Show hint after 10 seconds of idling.
 5. Play
   - Select first tile, select second tile.
@@ -64,11 +64,11 @@ Finally, run build task in the directory of the cloned repo.
   - Check the board for matches.
   - If there are matching tiles, destroy those and redo state 6.
 7. Board is now stable
-  - Check if exist moves to match tiles or if there is time left.
-  - If either is false, move to state 8.
-  - Else go back to state 4.
+  - Check if there is time left. If not, move to state 8.
+  - Check if exist moves to match tiles. If not, randomize the tiles.
+  - Go back to state 4.
 8. Game over screen
-  - Show score and the reason for game over (no moves/time left).
+  - Show game over text and final score.
   - Go back to state 3.
       
 ## Copyrights
