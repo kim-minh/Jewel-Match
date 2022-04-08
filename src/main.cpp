@@ -1,13 +1,14 @@
 #include "Game.h"
-#define VERSION 2.5
+#define VERSION 2.5.1
 
 /* 
-    v2.5 changelog:
+    v2.5.1 changelog:
     - Save high score to disk
     - Add notice before game start
     - Add custom cursor
     - Delete bug because I can't fix it
     - Cleanup unnecessary code
+    - Slightly reduce time needed for hint to show
 */
 
 int main(int argc, char* args[])

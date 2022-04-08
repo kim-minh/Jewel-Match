@@ -95,7 +95,7 @@ void Game::run()
         }
         else {
             //Start hint timer, display hint if return false
-            if(!hint.countdown(9000)) {
+            if(!hint.countdown(7000)) {
                 jewel.hint = true;
             }
             if(e.type == SDL_KEYDOWN) {

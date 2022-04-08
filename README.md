@@ -44,7 +44,7 @@ Finally, **Run Build Task** in the directory of the cloned repo.
 
 ### Game state:
 
-1. Initialize game's resources (texture, audio, ... )
+1. Initialize game's resources (texture, audio, ...)
 - If unable to initialize, quit program and display error in **Terminal**.
 -  Move to state 2.
 2. Start screen
