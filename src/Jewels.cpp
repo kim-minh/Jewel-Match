@@ -119,10 +119,8 @@ bool Jewel::existHint()
 
 void Jewel::displayHint()
 {
-    if(existHint()) {
-        engine.hintTexture.renderRect(&square[hintX][hintY]);
-        engine.hintTexture.renderRect(&square[hintX_][hintY_]);
-    }
+    engine.hintTexture.renderRect(&square[hintX][hintY]);
+    engine.hintTexture.renderRect(&square[hintX_][hintY_]);
 }
 
 void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
