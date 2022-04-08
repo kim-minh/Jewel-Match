@@ -7,6 +7,7 @@ Game::Game(const int &nRows, const int &nCols, int time) : jewel(nRows, nCols, t
 
     startGame();
     jewel.randomize();
+    highscore = 0;
     jewel.updateJewel();
 
     x = y = 0;
@@ -83,7 +84,7 @@ void Game::run()
         if(!jewel.existHint()) {
             gameover = true;
         }
-        if(gameover) {
+        if(gameover && !jewel.existMatch()) {
             SDL_RemoveTimer(timerID);
             hint.stop();
             endGame();
