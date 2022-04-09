@@ -88,11 +88,15 @@ void Game::run()
             jewel.randomize();
         }
         if(gameover) {
-            SDL_RemoveTimer(timerID);
-            hint.stop();
-            jewel.hint = false;
-            if(!jewel.existMatch())
-                endGame();
+            if(gameStarted) {
+                SDL_RemoveTimer(timerID);
+                hint.stop();
+                jewel.hint = false;
+                if(!jewel.existMatch()) {
+                    while(delay.countdown(1000));
+                }
+            }
+            endGame();
         }
         else {
             //Start hint timer, display hint if return false
