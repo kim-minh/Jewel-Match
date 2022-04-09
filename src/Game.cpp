@@ -90,6 +90,7 @@ void Game::run()
         if(gameover) {
             SDL_RemoveTimer(timerID);
             hint.stop();
+            jewel.hint = false;
             if(!jewel.existMatch())
                 endGame();
         }

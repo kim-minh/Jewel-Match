@@ -2,13 +2,14 @@
 #define VERSION 2.5.1
 
 /* 
-    v2.5.1 changelog:
+    v2.5.2 changelog:
     - Save high score to disk
     - Add notice before game start
     - Add custom cursor
     - Delete bug because I can't fix it
     - Cleanup unnecessary code
     - Slightly reduce time needed for hint to show
+    - Fix hint still showing after restart
 */
 
 int main(int argc, char* args[])
