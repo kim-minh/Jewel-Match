@@ -1,15 +1,9 @@
 #include "Game.h"
-#define VERSION 2.5.1
+#define VERSION 2.5.2
 
 /* 
-    v2.5.2 changelog:
-    - Save high score to disk
-    - Add notice before game start
-    - Add custom cursor
-    - Delete bug because I can't fix it
-    - Cleanup unnecessary code
-    - Slightly reduce time needed for hint to show
-    - Fix hint still showing after restart
+    v2.5.3 changelog:
+    - Fix high score not being properly saved
 */
 
 int main(int argc, char* args[])

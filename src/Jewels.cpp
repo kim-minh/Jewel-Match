@@ -3,20 +3,23 @@
 Jewel::Jewel(const int &nRows, const int &nCols, int time) : GameBoard(nRows, nCols, time) 
 {
     selected = pressed = hint = false;
+    highscore = engine.savedHighscore;
 }
 
-void Jewel::randomize(){
+void Jewel::randomize()
+{
     //Board creation
     for(int i = 0; i < nRows; i++){
         for(int j = 0; j < nCols; j++){
             board[i][j] = rand() % (Total-1) + 1;
         }
     }
+    int temp = highscore;
     while(existMatch()){
         clear();
         refill();
     }
-    highscore = engine.savedHighscore;
+    highscore = temp;
     score = 0;
 }
 
