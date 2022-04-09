@@ -96,6 +96,7 @@ void GameBoard::renderEnd()
 {
     engine.endTexture.renderRect(NULL);
     engine.scores.renderText(400, 340, NULL);
+    score = 0;
     engine.render();
 }
 
@@ -126,10 +127,6 @@ void GameBoard::renderHighScore()
 void GameBoard::renderTimer()
 {
     std::string minutes, seconds;
-    if(!engine.timer.isStarted()) {
-        //Initialize score
-        score = 0;
-    }
     if(gameStarted) {
         if(!gameover && !engine.timer.countdown(time)) {
             engine.timer.stop();
