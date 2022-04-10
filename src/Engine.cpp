@@ -1,11 +1,9 @@
 #include "Engine.h"
 #include "Log.h"
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
 Engine::Engine() : WINDOW_WIDTH(800), WINDOW_HEIGHT(600), TITLE("Jewel Match")
 {
-    srand(time(NULL));
     success = true;
     if( !init() ) {
         Error("Unable to initialize Engine!");
@@ -61,8 +59,8 @@ bool Engine::init()
         LogSDL("CreateWindow");
         success = false;
     }
-
-    icon = IMG_Load("assets/gemBlue.png");
+    //Window icon
+    SDL_Surface* icon = IMG_Load("assets/gemBlue.png");
     if(icon == NULL) {
         LogIMG("IMG_Load");
         success = false;
@@ -76,7 +74,7 @@ bool Engine::init()
         success = false;
     }
 
-    cursorSurface = IMG_Load("assets/cursor.png");
+    SDL_Surface *cursorSurface = IMG_Load("assets/cursor.png");
     if(cursorSurface == NULL) {
         LogIMG("IMG_Load");
         success = false;
@@ -194,6 +192,14 @@ void Engine::exit()
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
+}
+
+int Engine::getRandom()
+{
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(1, Total-1);
+    return dist(rng);
 }
 
 void Engine::render()

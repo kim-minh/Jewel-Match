@@ -41,7 +41,7 @@ These instructions are for compilation with [Visual Studio Code](https://code.vi
       "/opt/homebrew/include",
       "/opt/homebrew/lib"
       
-  Or press **Command + SHIFT + P** , select **C/C++ Edit configurations (GUI)** and add to *Include path*: 
+  Or press **Command + SHIFT + P** , select **C/C++ Edit configurations (GUI)** and add to *Include path*.
 
 Finally, **Run Build Task** in the directory of the cloned repo.      
       

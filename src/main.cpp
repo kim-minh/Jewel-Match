@@ -1,9 +1,9 @@
 #include "Game.h"
-#define VERSION 2.5.6
+#define VERSION 2.5.7
 
 /* 
-    v2.5.6 changelog:
-    - Fix wrong score calculation after randomize board
+    v2.5.7 changelog:
+    - Generate random number using modern C++
 */
 
 int main(int argc, char* args[])

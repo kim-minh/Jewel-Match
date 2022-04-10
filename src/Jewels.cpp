@@ -12,7 +12,7 @@ void Jewel::randomize()
     //Board creation
     for(int i = 0; i < nRows; i++){
         for(int j = 0; j < nCols; j++){
-            board[i][j] = rand() % (Total-1) + 1;
+            board[i][j] = engine.getRandom();
         }
     }
     while(existMatch()){

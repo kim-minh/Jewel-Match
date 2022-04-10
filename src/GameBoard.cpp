@@ -46,7 +46,7 @@ void GameBoard::scoreCalculate()
                 count++;
         }
     }
-    score += (count / 3) * 750 + (count % 3) * ((rand() % 6) * 10 + 250);
+    score += (count / 3) * 750 + (count % 3) * (engine.getRandom() * 10 + 300);
 }
 
 void GameBoard::clear()
@@ -82,7 +82,7 @@ void GameBoard::refill()
     for(int row = 0; row < nRows; row++) {
         for(int col = 0; col < nCols; col++) {
             if(board[row][col] == Destroyed) {
-                board[row][col] = rand() % (Total-1) + 1;
+                board[row][col] = engine.getRandom();
             }
         }
     }

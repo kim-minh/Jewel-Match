@@ -17,12 +17,8 @@ class Engine
         //Window title
         const std::string TITLE;
 
-        //Window icon
-        SDL_Surface* icon;
-
         //Custom mouse cursor
         SDL_Cursor *cursor;
-        SDL_Surface *cursorSurface;
 
         bool success;
 
@@ -76,6 +72,9 @@ class Engine
         Sound startSFX;
         Sound endSFX;
         Sound matchSFX[3];
+
+        //Generate random number
+        int getRandom();
 
         //Update screen
         void render();
