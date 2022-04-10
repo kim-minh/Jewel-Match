@@ -1,9 +1,9 @@
 #include "Game.h"
-#define VERSION 2.5.7
+#define VERSION 2.5.8
 
 /* 
-    v2.5.7 changelog:
-    - Generate random number using modern C++
+    v2.5.8 changelog:
+    - Minor change
 */
 
 int main(int argc, char* args[])

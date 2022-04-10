@@ -18,7 +18,7 @@ void Game::startGame()
             running = false;
         else {
             jewel.renderStart();
-            if(e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_RETURN || e.key.keysym.sym == SDLK_SPACE)) {
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN || e.type == SDL_MOUSEBUTTONDOWN) {
                 start();
             }
         }
@@ -33,7 +33,7 @@ void Game::endGame()
         jewel.engine.endSFX.playSFX();
         jewel.engine.music.stopMusic();
     }
-    if(e.type == SDL_KEYDOWN && (e.key.keysym.sym == SDLK_RETURN || e.key.keysym.sym == SDLK_SPACE)) {
+    if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN || e.type == SDL_MOUSEBUTTONDOWN) {
         gameover = false;
         start();
     }
@@ -42,6 +42,7 @@ void Game::endGame()
 void Game::start()
 {
     jewel.engine.startSFX.playSFX();
+    selected = false;
     while(delay.countdown(1000));
     jewel.startNotice();
     while(delay.countdown(1000));
