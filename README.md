@@ -1,4 +1,5 @@
 # Jewel Match
+
 Simple [Bejeweled](http://en.wikipedia.org/wiki/Bejeweled)/Match-3 game written in C++ and [SDL 2.0](http://www.libsdl.org). 
 
 This was built and tested on an **M1 Mac with macOS Monterey**, but should work on other platforms as well.
@@ -40,9 +41,7 @@ These instructions are for compilation with [Visual Studio Code](https://code.vi
       "/opt/homebrew/include",
       "/opt/homebrew/lib"
       
-  Or press **Command + SHIFT + P** , select **C/C++ Edit configurations (GUI)** and add those to *Include path*: 
-  
-	<img width="832" alt="cpp-options" src="https://user-images.githubusercontent.com/100175752/162561515-d98a2720-bd93-47ee-9d40-eeefa42a8b1f.png">
+  Or press **Command + SHIFT + P** , select **C/C++ Edit configurations (GUI)** and add to *Include path*: 
 
 Finally, **Run Build Task** in the directory of the cloned repo.      
       

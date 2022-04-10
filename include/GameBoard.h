@@ -21,6 +21,9 @@ class GameBoard
         //Jewels to be removed
         vector<vector<bool> > pendingRemoval;
 
+        //Return true if board was randomized
+        bool randomized;
+
         GameBoard(const int &nRows, const int &nCols, int time);
 
         //Game start screen
@@ -45,7 +48,7 @@ class GameBoard
         void renderScore();
         void renderHighScore();
         Sint32 score;
-        Sint32 scoreCalculate();
+        void scoreCalculate();
 
         //Clear matching jewels
         void clear();

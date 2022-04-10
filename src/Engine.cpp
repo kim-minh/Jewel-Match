@@ -91,8 +91,8 @@ bool Engine::init()
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     if( !SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-			Error("Warning: Linear texture filtering not enabled!");
-		}
+		Error("Warning: Linear texture filtering not enabled!");
+	}
     
     return success;
 }

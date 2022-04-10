@@ -8,19 +8,18 @@ Jewel::Jewel(const int &nRows, const int &nCols, int time) : GameBoard(nRows, nC
 
 void Jewel::randomize()
 {
+    randomized = true;
     //Board creation
     for(int i = 0; i < nRows; i++){
         for(int j = 0; j < nCols; j++){
             board[i][j] = rand() % (Total-1) + 1;
         }
     }
-    int temp = highscore;
     while(existMatch()){
         clear();
         refill();
     }
-    highscore = temp;
-    score = 0;
+    randomized = false;
 }
 
 void Jewel::renderJewel()

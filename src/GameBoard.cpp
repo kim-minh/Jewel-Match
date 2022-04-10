@@ -37,7 +37,7 @@ GameBoard::GameBoard(const int &nRows, const int &nCols, int time) : nRows(nRows
     timeBoard.h = 71;
 }
 
-int GameBoard::scoreCalculate()
+void GameBoard::scoreCalculate()
 {
     int count = 0;
     for(int row = 0; row < nRows; row++) {
@@ -46,13 +46,15 @@ int GameBoard::scoreCalculate()
                 count++;
         }
     }
-    return (count / 3) * 750 + (count % 3) * ((rand() % 6) * 10 + 250);
+    score += (count / 3) * 750 + (count % 3) * ((rand() % 6) * 10 + 250);
 }
 
 void GameBoard::clear()
 {
-    score += scoreCalculate();
+    if(!randomized)
+        scoreCalculate();
     highscore = score > highscore ? score : highscore;
+
     for(int row = 0; row < nRows; row++) {
         for(int col = 0; col < nCols; col++) {
             if(pendingRemoval[row][col]) {
