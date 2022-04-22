@@ -90,21 +90,21 @@ void GameBoard::refill()
 
 void GameBoard::renderStart()
 {
-    engine.startTexture.renderRect(NULL);
+    engine.startTexture.renderTexture();
     engine.render();
 }
 
 void GameBoard::renderEnd()
 {
-    engine.endTexture.renderRect(NULL);
-    engine.scores.renderText(400, 340, NULL);
+    engine.endTexture.renderTexture();
+    engine.scores.renderText(400, 340);
     score = 0;
     engine.render();
 }
 
 void GameBoard::renderBoard()
 {
-    engine.boardTexture.renderRect(NULL);
+    engine.boardTexture.renderTexture();
     renderScore();
     renderHighScore();
     renderTimer();
@@ -112,16 +112,16 @@ void GameBoard::renderBoard()
 
 void GameBoard::renderScore()
 {
-    engine.scoreTexture.renderRect(&scoreBoard);
-    engine.scoreText.renderText(70, 170, NULL);
+    engine.scoreTexture.renderTexture(&scoreBoard);
+    engine.scoreText.renderText(70, 170);
     engine.scores.loadText(std::to_string(score));
     engine.scores.renderText(25, -1, &scoreBoard);
 }
 
 void GameBoard::renderHighScore()
 {
-    engine.scoreTexture.renderRect(&highscoreBoard);
-    engine.highscoreText.renderText(50, 70, NULL);
+    engine.scoreTexture.renderTexture(&highscoreBoard);
+    engine.highscoreText.renderText(50, 70);
     engine.highscores.loadText(std::to_string(highscore));
     engine.highscores.renderText(25, -1, &highscoreBoard);
 }
@@ -149,8 +149,8 @@ void GameBoard::renderTimer()
         seconds = "0" + seconds;
     }
 
-    engine.timerTexture.renderRect(&timeBoard);
-    engine.timeText.renderText(85, 370, NULL);
+    engine.timerTexture.renderTexture(&timeBoard);
+    engine.timeText.renderText(85, 370);
     engine.times.loadText(minutes + ":" + seconds);
     engine.times.renderText(-1, -1, &timeBoard);
 }
@@ -158,6 +158,6 @@ void GameBoard::renderTimer()
 void GameBoard::startNotice()
 {
     renderBoard();
-    engine.startNotice.renderText(-1, -1, NULL);
+    engine.startNotice.renderText(-1, -1);
     engine.render();
 }

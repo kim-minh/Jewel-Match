@@ -9,10 +9,6 @@ class Texture
 		//The actual hardware texture
 		SDL_Texture* texture;
 
-		//Image dimensions
-		int width;
-		int height;
-
 		//Deallocates texture
 		void free();
 
@@ -28,11 +24,7 @@ class Texture
 
 		/* Renders texture to an existing SDL_Rect
 		   rect = NULL if render to entire screen */
-		void renderRect(SDL_Rect* rect);
-
-		//Renders to a new SDL_Rect from image's dimensions
-		void renderNewRect(int x, int y);
-
+		void renderTexture(SDL_Rect* rect = NULL);
 };
 
 #endif

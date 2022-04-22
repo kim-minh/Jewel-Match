@@ -42,7 +42,6 @@ void Game::endGame()
 void Game::start()
 {
     jewel.engine.startSFX.playSFX();
-    selected = false;
     while(delay.countdown(1000));
     jewel.startNotice();
     while(delay.countdown(1000));

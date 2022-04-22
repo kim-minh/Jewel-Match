@@ -28,7 +28,7 @@ void Jewel::renderJewel()
     for(int x = 0; x < nRows; x++) {
         for(int y = 0; y < nCols; y++) {
             int COLOR = board[x][y];
-            engine.jewelTexture[COLOR].renderRect(&square[x][y]);
+            engine.jewelTexture[COLOR].renderTexture(&square[x][y]);
         }
     }
 }
@@ -122,8 +122,8 @@ bool Jewel::existHint()
 
 void Jewel::displayHint()
 {
-    engine.hintTexture.renderRect(&square[hintX][hintY]);
-    engine.hintTexture.renderRect(&square[hintX_][hintY_]);
+    engine.hintTexture.renderTexture(&square[hintX][hintY]);
+    engine.hintTexture.renderTexture(&square[hintX_][hintY_]);
 }
 
 void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
@@ -133,10 +133,10 @@ void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
         displayHint();
     }
     if(selected) {
-        engine.selectorTexture.renderRect(&square[selectedX][selectedY]);
+        engine.selectorTexture.renderTexture(&square[selectedX][selectedY]);
     }
     if(pressed) {
-        engine.selectorTexture.renderRect(&square[x][y]);
+        engine.selectorTexture.renderTexture(&square[x][y]);
     }
     engine.render();
 }

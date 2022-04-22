@@ -1,8 +1,8 @@
 #include "Game.h"
-#define VERSION 2.5.8
+#define VERSION 2.5.9
 
 /* 
-    v2.5.8 changelog:
+    v2.5.9 changelog:
     - Minor change
 */
 
