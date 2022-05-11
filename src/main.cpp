@@ -1,9 +1,9 @@
 #include "Game.h"
-#define VERSION 2.5.9
+#define VERSION 2.5.10
 
 /* 
-    v2.5.9 changelog:
-    - Minor change
+    v2.5.10 changelog:
+    - Revert back to SDL_Delay and fix some warnings
 */
 
 int main(int argc, char* args[])

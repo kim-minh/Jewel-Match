@@ -18,7 +18,7 @@ void Game::startGame()
             running = false;
         else {
             jewel.renderStart();
-            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN || e.type == SDL_MOUSEBUTTONDOWN) {
+            if((e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) || e.type == SDL_MOUSEBUTTONDOWN) {
                 start();
             }
         }
@@ -33,7 +33,7 @@ void Game::endGame()
         jewel.engine.endSFX.playSFX();
         jewel.engine.music.stopMusic();
     }
-    if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN || e.type == SDL_MOUSEBUTTONDOWN) {
+    if((e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) || e.type == SDL_MOUSEBUTTONDOWN) {
         gameover = false;
         start();
     }
@@ -42,9 +42,9 @@ void Game::endGame()
 void Game::start()
 {
     jewel.engine.startSFX.playSFX();
-    while(delay.countdown(1000));
+    SDL_Delay(1000);
     jewel.startNotice();
-    while(delay.countdown(1000));
+    SDL_Delay(1000);
     gameStarted = true;
     jewel.engine.music.playMusic();
     timerID = SDL_AddTimer(1000, callback, NULL);
@@ -73,7 +73,7 @@ void Game::updateGame()
         //Matching actions
         jewel.clear();
         jewel.updateJewel();
-        while(delay.countdown(700));
+        SDL_Delay(700);
         jewel.refill();
         jewel.updateJewel();
     }
@@ -93,7 +93,7 @@ void Game::run()
                 hint.stop();
                 jewel.hint = false;
                 if(!jewel.existMatch()) {
-                    while(delay.countdown(1000));
+                    SDL_Delay(1000);
                 }
             }
             endGame();
@@ -239,11 +239,11 @@ void Game::swapJewels()
         if(swapCheck()) {
             std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
             jewel.updateJewel();
-            while(delay.countdown(300));
+            SDL_Delay(300);
             if(!jewel.existMatch()) {
                 std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
                 jewel.updateJewel();
-                while(delay.countdown(300));
+                SDL_Delay(300);
             }
             else x = y = 0;
             pressed = false;
@@ -261,8 +261,8 @@ bool Game::swapCheck()
 {
     if( x > selectedX + 1 || x < selectedX - 1 || 
         y > selectedY + 1 || y < selectedY - 1 ||
-        x > selectedX && y > selectedY || x < selectedX && y < selectedY ||
-        x > selectedX && y < selectedY || x < selectedX && y > selectedY)
+        (x > selectedX && y > selectedY) || (x < selectedX && y < selectedY) ||
+        (x > selectedX && y < selectedY) || (x < selectedX && y > selectedY))
         return false;
     else return true;
 }

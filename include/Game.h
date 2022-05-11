@@ -12,7 +12,6 @@ class Game
         SDL_Point pos;
 
         //Delay function
-        Timer delay;
         Timer hint;
 
         Jewel jewel;

@@ -41,12 +41,13 @@ void Jewel::updateJewel()
 
 bool Jewel::match3(const int &row, const int &col, const std::string &direction)
 {
-    int stepX, stepY;
+    int stepX = 0;
+    int stepY = 0;
     if(direction == "HORIZONTAL") {
-        stepX = 0, stepY = 1;
+        stepY = 1;
     }
     else if(direction == "VERTICAL") {
-        stepX = 1, stepY = 0;
+        stepX = 1;
     }
     
     //Starting value
