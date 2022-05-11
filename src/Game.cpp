@@ -4,6 +4,7 @@ Game::Game(const int &nRows, const int &nCols, int time) : jewel(nRows, nCols, t
 {
     gameStarted = false;
     running = true;
+    gameMode = Time;
 
     startGame();
 
@@ -18,7 +19,13 @@ void Game::startGame()
             running = false;
         else {
             jewel.renderStart();
-            if((e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) || e.type == SDL_MOUSEBUTTONDOWN) {
+            if(e.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&pos.x, &pos.y);
+                if(SDL_PointInRect(&pos, &jewel.modeSelect)) {
+                    gameMode = gameMode == Time ? Zen : Time;
+                }
+            }
+            else if((e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN)) {
                 start();
             }
         }
@@ -33,14 +40,19 @@ void Game::endGame()
         jewel.engine.endSFX.playSFX();
         jewel.engine.music.stopMusic();
     }
-    if((e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) || e.type == SDL_MOUSEBUTTONDOWN) {
-        gameover = false;
-        start();
+    if(e.type == SDL_KEYDOWN) {
+        if(e.key.keysym.sym == SDLK_ESCAPE)
+            startGame();
+        else if(e.key.keysym.sym == SDLK_RETURN)
+            start();
     }
 }
 
 void Game::start()
 {
+    gameover = false;
+    highscore = &jewel.engine.savedHighscore[gameMode];
+
     jewel.engine.startSFX.playSFX();
     SDL_Delay(1000);
     jewel.startNotice();
@@ -85,7 +97,9 @@ void Game::run()
         if(e.type == SDL_QUIT)
             running = false;
         if(!jewel.existHint()) {
-            jewel.randomize();
+            if(gameMode == Zen)
+                gameover = true; 
+            else jewel.randomize();
         }
         if(gameover) {
             if(gameStarted) {
@@ -95,6 +109,7 @@ void Game::run()
                 if(!jewel.existMatch()) {
                     SDL_Delay(1000);
                 }
+                jewel.engine.save();
             }
             endGame();
         }
@@ -104,11 +119,14 @@ void Game::run()
                 jewel.hint = true;
             }
             if(e.type == SDL_KEYDOWN) {
-                if(!pressed) {
+                if(e.key.keysym.sym == SDLK_ESCAPE)
+                    gameover = true;
+                else if(!pressed) {
                     pressed = true;
-                }
-                else keyControl();
+                
+                 keyControl();
                 jewel.renderSelector(selectedX, selectedY, x, y);
+                }
                 updateGame();
             }
             if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP) {
@@ -135,7 +153,7 @@ void Game::run()
 
 void Game::keyControl()
 {
-    switch(e.key.keysym.sym){
+    switch(e.key.keysym.sym) {
         case SDLK_UP: case SDLK_w:
             x--;
             if(selected) {

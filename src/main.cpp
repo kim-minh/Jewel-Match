@@ -1,9 +1,9 @@
 #include "Game.h"
-#define VERSION 2.5.10
+#define VERSION 2.6
 
 /* 
-    v2.5.10 changelog:
-    - Revert back to SDL_Delay and fix some warnings
+    v2.6 changelog:
+    - Add Zen mode
 */
 
 int main(int argc, char* args[])

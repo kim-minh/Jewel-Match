@@ -3,7 +3,6 @@
 Jewel::Jewel(const int &nRows, const int &nCols, int time) : GameBoard(nRows, nCols, time) 
 {
     selected = pressed = hint = false;
-    highscore = engine.savedHighscore;
 }
 
 void Jewel::randomize()
