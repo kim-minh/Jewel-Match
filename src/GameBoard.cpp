@@ -2,6 +2,8 @@
 
 GameBoard::GameBoard(const int &nRows, const int &nCols, int time) : nRows(nRows), nCols(nCols), time(time * 1000)
 {
+    score = 0;
+
     //Initialize board
     board.resize(nRows, vector<int>(nCols));
 

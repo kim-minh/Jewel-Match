@@ -1,5 +1,5 @@
 #include "Game.h"
-#define VERSION 2.6.1
+#define VERSION 2.6.2
 
 /* 
     v2.6 changelog:
