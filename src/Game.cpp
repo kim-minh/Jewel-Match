@@ -123,10 +123,9 @@ void Game::run()
                     gameover = true;
                 else if(!pressed) {
                     pressed = true;
-                
-                 keyControl();
-                jewel.renderSelector(selectedX, selectedY, x, y);
                 }
+                else keyControl();
+                jewel.renderSelector(selectedX, selectedY, x, y);
                 updateGame();
             }
             if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP) {
