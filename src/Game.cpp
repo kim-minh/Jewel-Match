@@ -1,11 +1,9 @@
 #include "Game.h"
 
-Game::Game(const int &nRows, const int &nCols, int time) : jewel(nRows, nCols, time), nRows(nRows), nCols(nCols)
+Game::Game(const int &nRows, const int &nCols) : jewel(nRows, nCols), nRows(nRows), nCols(nCols)
 {
-    gameStarted = false;
+    gameStarted = exit = false;
     running = true;
-    gameMode = Time;
-
     startGame();
 
     x = y = 0;
@@ -19,14 +17,42 @@ void Game::startGame()
             running = false;
         else {
             jewel.renderStart();
-            if(e.type == SDL_MOUSEBUTTONDOWN) {
-                SDL_GetMouseState(&pos.x, &pos.y);
-                if(SDL_PointInRect(&pos, &jewel.modeSelect)) {
-                    gameMode = gameMode == Time ? Zen : Time;
+            if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&mousePos.x, &mousePos.y);
+                if(SDL_PointInRect(&mousePos, &jewel.modeSelect)) {
+                    selectChange = false;
+                    if(e.type == SDL_MOUSEBUTTONDOWN)
+                        gameMode = (gameMode + 1) % Total_Mode;
+                }
+                else if(gameMode == Time && SDL_PointInRect(&mousePos, &jewel.timeSelect)) {
+                    selectChange = true;
+                    if(e.type == SDL_MOUSEBUTTONDOWN)
+                        timeMode = (timeMode + 1) % Total_Time;
                 }
             }
-            else if((e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN)) {
-                start();
+            else if(e.type == SDL_KEYDOWN) {
+                switch(e.key.keysym.sym) {
+                    case SDLK_s: case SDLK_w: case SDLK_DOWN: case SDLK_UP:
+                        if(gameMode == Time)
+                            selectChange ? selectChange = false : selectChange = true;
+                        break;
+
+                    case SDLK_RIGHT: case SDLK_d:
+                        if(!selectChange)
+                            gameMode = (gameMode + 1) % Total_Mode;
+                        else timeMode = (timeMode + 1) % Total_Time;
+                        break;
+                    
+                    case SDLK_LEFT: case SDLK_a:
+                        if(!selectChange)
+                            gameMode = (Total_Mode + (gameMode - 1)) % Total_Mode;
+                        else timeMode = (Total_Time + (timeMode - 1)) % Total_Time;
+                        break;
+ 
+                    case SDLK_RETURN:
+                        start();
+                        break;
+                }
             }
         }
     }
@@ -36,59 +62,42 @@ void Game::endGame()
 {
     if(gameStarted) {
         gameStarted = false;
-        jewel.renderEnd();
-        jewel.engine.endSFX.playSFX();
         jewel.engine.music.stopMusic();
+        if(!exit) {
+            jewel.renderEnd();
+            jewel.engine.endSFX.playSFX();
+        }
+    }
+    if(exit) {
+        startGame();
+        return;
     }
     if(e.type == SDL_KEYDOWN) {
-        if(e.key.keysym.sym == SDLK_ESCAPE)
+        if(e.key.keysym.sym == SDLK_ESCAPE) {
             startGame();
-        else if(e.key.keysym.sym == SDLK_RETURN)
+            return;
+        }
+        else if(e.key.keysym.sym == SDLK_RETURN) {
             start();
+            return;
+        }
     }
 }
 
 void Game::start()
 {
-    gameover = false;
-    highscore = &jewel.engine.savedHighscore[gameMode];
+    gameover = exit = false;
+    if(gameMode == Time)
+        highscore = &jewel.engine.savedHighscore[Time][timeMode];
+    else highscore = &jewel.engine.savedHighscore[gameMode][0];
 
     jewel.engine.startSFX.playSFX();
-    SDL_Delay(1000);
     jewel.startNotice();
-    SDL_Delay(1000);
     gameStarted = true;
     jewel.engine.music.playMusic();
     timerID = SDL_AddTimer(1000, callback, NULL);
     jewel.randomize();
     jewel.updateJewel();
-}
-
-void Game::updateGame()
-{
-    int count = 0;
-    while(jewel.existMatch()) {
-        //Stop hint timer because matched
-        hint.stop();
-        jewel.hint = false;
-
-        //Choose which sfx to play
-        count++;
-        if(count == 1) {
-            jewel.engine.matchSFX[0].playSFX();
-        }
-        else if(count == 2) {
-            jewel.engine.matchSFX[1].playSFX();
-        }
-        else jewel.engine.matchSFX[2].playSFX();
-
-        //Matching actions
-        jewel.clear();
-        jewel.updateJewel();
-        SDL_Delay(700);
-        jewel.refill();
-        jewel.updateJewel();
-    }
 }
 
 void Game::run()
@@ -104,20 +113,13 @@ void Game::run()
         if(gameover) {
             if(gameStarted) {
                 SDL_RemoveTimer(timerID);
-                hint.stop();
-                jewel.hint = false;
                 if(!jewel.existMatch()) {
-                    SDL_Delay(1000);
+                    SDL_Delay(400);
                 }
-                jewel.engine.save();
             }
             endGame();
         }
         else {
-            //Start hint timer, display hint if return false
-            if(!hint.countdown(7000)) {
-                jewel.hint = true;
-            }
             if(e.type == SDL_KEYDOWN) {
                 if(e.key.keysym.sym == SDLK_ESCAPE)
                     gameover = true;
@@ -126,19 +128,22 @@ void Game::run()
                 }
                 else keyControl();
                 jewel.renderSelector(selectedX, selectedY, x, y);
-                updateGame();
+                jewel.updateGame();
             }
             if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP) {
                 pressed = true;
-                SDL_GetMouseState(&pos.x, &pos.y);
+                SDL_GetMouseState(&mousePos.x, &mousePos.y);
+                if(e.type == SDL_MOUSEBUTTONDOWN && SDL_PointInRect(&mousePos, &jewel.exit)) {
+                    gameover = exit = true;
+                }
                 for(int x_ = 0; x_ < nRows; x_++) {
                     for(int y_ = 0; y_ < nCols; y_++) {
-                        if(SDL_PointInRect(&pos, &jewel.square[x_][y_])) {
+                        if(SDL_PointInRect(&mousePos, &jewel.square[x_][y_])) {
                             x = x_;
                             y = y_;
                             mouseControl();
                             jewel.renderSelector(selectedX, selectedY, x, y);
-                            updateGame();
+                            jewel.updateGame();
                         }
                     }
                 }
@@ -162,8 +167,7 @@ void Game::keyControl()
                 if(x != selectedX)
                     x = selectedX - 1;
             }
-            else if(x == -1)
-                x = nRows - x - 2;
+            else x = (nRows + x) % nRows;
             break;
 
         case SDLK_DOWN: case SDLK_s:
@@ -175,8 +179,7 @@ void Game::keyControl()
                 if(x != selectedX)
                     x = selectedX + 1;
             }
-            else if(x == nRows)
-                x = 0;
+            else x = x % nRows;
             break;
 
         case SDLK_LEFT: case SDLK_a:
@@ -188,8 +191,7 @@ void Game::keyControl()
                 if(y != selectedY)
                     y = selectedY - 1;
             }
-            else if(y == -1)
-                y = nCols - y - 2;
+            else y = (nCols + y) % nCols;
             break;
 
         case SDLK_RIGHT: case SDLK_d:
@@ -201,8 +203,7 @@ void Game::keyControl()
                 if(y != selectedY)
                     y = selectedY + 1;
             }
-            else if(y == nRows)
-                y = 0;
+            else y = y % nCols;
             break;
             
         case SDLK_RETURN: case SDLK_SPACE:
@@ -256,13 +257,10 @@ void Game::swapJewels()
         if(swapCheck()) {
             std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
             jewel.updateJewel();
-            SDL_Delay(300);
             if(!jewel.existMatch()) {
                 std::swap(jewel.board[selectedX][selectedY], jewel.board[x][y]);
                 jewel.updateJewel();
-                SDL_Delay(300);
             }
-            else x = y = 0;
             pressed = false;
         }
         else {

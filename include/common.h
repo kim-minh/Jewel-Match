@@ -12,8 +12,13 @@ extern bool gameStarted, gameover;
 //Check if a jewel was selected
 extern bool pressed, selected;
 
+//Change mode selection
+extern bool selectChange;
+
 //Game mode
 extern int gameMode;
+//Time mode
+extern int timeMode;
 
 //High score
 extern Sint32* highscore;

@@ -8,25 +8,23 @@ This was built and tested on an **M1 Mac with macOS Monterey**, but should work 
 
 ## Build Instruction
 
-These instructions are for compilation with [Visual Studio Code](https://code.visualstudio.com/) on **macOS**. You can look for other compile instructions on [Lazy Foo' Productions](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php). This assume you already have **Command Line Tools** installed.
+These instructions are for compilation with [Visual Studio Code](https://code.visualstudio.com/) on **macOS**. This assumes you already have [Homebrew](https://brew.sh) installed. 
+
+You can look for other compile instructions on [Lazy Foo' Productions](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php).
 
 ### Prerequisites
 
-- First, install [Homebrew](https://brew.sh) using **Terminal** and follow the instruction:
-
-    	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    
-- Then do:
+- First, install SDL and extensions:
 	
     	brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer
     
-- After that, clone the repo:
+- Then clone the repo:
 
     	git clone https://github.com/kim-minh/Jewel-Match.git
     
 ### Configure Visual Studio Code: 
 
-**Note:** On Intel Macs, replace *opt/hombrew/* with */usr/local/homebrew/*.
+**Note:** On Intel Macs, replace */opt/hombrew/* with */usr/local/homebrew/*.
 
 - In *tasks.jsons*, add these to *"args"*:
 
@@ -50,8 +48,8 @@ Finally, **Run Build Task** in the directory of the cloned repo.
 ### Game state:
 
 #### 1. Initialize game's resources (texture, audio, ...)
-- If unable to initialize, quit program and output error to **Terminal**.
--  Move to state 2.
+  - If unable to initialize, quit program and output error to **Terminal**.
+  - Move to state 2.
 #### 2. Start screen
   - Board is initialized with random tiles that does not have any existing matches. Board is not drawn yet.
   - Check if there are any possible moves. There is a chance that the board will be generated without any.
@@ -86,6 +84,6 @@ Background music *Easy Lemon* by [Kevin MacLeod](https://incompetech.com/music/r
 
 Sound Effects *Game Start* and *Game Over* are from [Freesound](https://freesound.org/), licensed under [Creative Commons: By Attribution 3.0](https://creativecommons.org/licenses/by/3.0/)  
 
-Font *Digital-7* by [Style-7](http://www.styleseven.com/php/get_product.php?product=Digital-7)
+Font *Digital-7* by [Style-7](http://www.styleseven.com/php/get_product.php?product=Digital-7) (Free for personal use)
 
 The rest of the project is licensed under GPLv3 (see LICENSE)

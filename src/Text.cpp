@@ -25,10 +25,10 @@ bool Text::openFont(int size)
 	return font != NULL;
 }
 
-bool Text::loadText(std::string textureText)
+bool Text::loadText(const std::string &text)
 {
 	//Free texture if it exists
-	if( texture != NULL) {
+	if(texture != NULL) {
 		SDL_DestroyTexture( texture );
 		texture = NULL;
 	}
@@ -36,13 +36,13 @@ bool Text::loadText(std::string textureText)
 	SDL_Color textColor = {255, 255, 255};
 
 	//Render text surface
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
-	if( textSurface == NULL ) {
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	if(textSurface == NULL) {
 		LogTTF("TTF_RenderText");
 	}
 	else {
-        texture = SDL_CreateTextureFromSurface( renderer, textSurface );
-		if( texture == NULL ) {
+        texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		if(texture == NULL) {
 			LogSDL("CreateTextureFromSurface");
 		}
 		else {
@@ -52,7 +52,7 @@ bool Text::loadText(std::string textureText)
 		}
 
 		//Get rid of old surface
-		SDL_FreeSurface( textSurface );
+		SDL_FreeSurface(textSurface);
 	}
 	
 	return texture != NULL;
@@ -80,7 +80,7 @@ void Text::renderText(int x, int y, SDL_Rect* rect)
 	}
 
 	//Set rendering space and render to screen
-	SDL_Rect newRect = { x, y, width, height };
+	SDL_Rect newRect = {x, y, width, height};
 
 	//Render to screen
 	SDL_RenderCopy(renderer, texture, NULL, &newRect);

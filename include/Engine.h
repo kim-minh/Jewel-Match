@@ -6,10 +6,12 @@
 #include "Sound.h"
 
 //Jewels in squares
-enum Jewels{Destroyed, Red, Green, Blue, Orange, Yellow, Purple, White, Total};
+enum Jewels {Destroyed, Red, Green, Blue, Orange, Yellow, Purple, White, Total};
 
 //Game modes
-enum GameModes{Time, Zen, Total_Mode};
+enum GameModes {Time, Zen, Endless, Total_Mode};
+//Time modes
+enum TimeModes {OneMinute, TwoMinutes, FiveMinutes, Total_Time};
 
 class Engine
 {
@@ -34,8 +36,10 @@ class Engine
         //Initialiize Sound
         bool initSound();
 
-        //Read save file
+        //Read save data
         void initSave();
+        //Save high score to disk
+        bool save();
 
         void exit();
 
@@ -43,8 +47,8 @@ class Engine
         Engine();
         ~Engine();
 
-        //Saved high score from save file
-        Sint32 savedHighscore[Total_Mode];
+        //Saved high score from disk
+        Sint32 savedHighscore[Total_Mode][Total_Time];
 
         Timer timer;
         
@@ -55,11 +59,14 @@ class Engine
         Texture hintTexture; // Hint texture
         Texture scoreTexture; //Score texture
         Texture timerTexture; //Timer texture
+        Texture highlightTexture; //Highlight selection texture
+        Texture exitTexture; //Exit texture
         Texture startTexture; //Start screen texture
         Texture endTexture; //End screen texture
 
         //Texts
-        Text mode;
+        Text gameModeText; //Game modes
+        Text timeModeText; //Time modes
         Text scores; //Score
         Text highscores; //High score
         Text times; //Remaing time
@@ -73,9 +80,6 @@ class Engine
         Sound startSFX;
         Sound endSFX;
         Sound matchSFX[3];
-
-        //Save high score to save file
-        bool save();
 
         //Generate random number
         int getRandom();

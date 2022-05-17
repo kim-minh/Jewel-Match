@@ -12,7 +12,7 @@ Texture::~Texture()
 	free();
 }
 
-bool Texture::loadFile( std::string path )
+bool Texture::loadFile(const std::string &path)
 {
 	//Get rid of preexisting texture
 	free();
@@ -36,8 +36,8 @@ void Texture::renderTexture(SDL_Rect* rect)
 void Texture::free()
 {
 	//Free texture if it exists
-	if( texture != NULL) {
-		SDL_DestroyTexture( texture );
+	if(texture != NULL) {
+		SDL_DestroyTexture(texture);
 		texture = NULL;
 	}
 }

@@ -1,20 +1,20 @@
 #include "Jewels.h"
 
-Jewel::Jewel(const int &nRows, const int &nCols, int time) : GameBoard(nRows, nCols, time) 
+Jewel::Jewel(const int &nRows, const int &nCols) : GameBoard(nRows, nCols) 
 {
-    selected = pressed = hint = false;
+    selected = pressed = needHint = false;
 }
 
 void Jewel::randomize()
 {
     randomized = true;
     //Board creation
-    for(int i = 0; i < nRows; i++){
-        for(int j = 0; j < nCols; j++){
+    for(int i = 0; i < nRows; i++) {
+        for(int j = 0; j < nCols; j++) {
             board[i][j] = engine.getRandom();
         }
     }
-    while(existMatch()){
+    while(existMatch()) {
         clear();
         refill();
     }
@@ -36,6 +36,7 @@ void Jewel::updateJewel()
 {   
     renderJewel();
     engine.render();
+    SDL_Delay(400);
 }
 
 bool Jewel::match3(const int &row, const int &col, const std::string &direction)
@@ -122,16 +123,23 @@ bool Jewel::existHint()
 
 void Jewel::displayHint()
 {
-    engine.hintTexture.renderTexture(&square[hintX][hintY]);
-    engine.hintTexture.renderTexture(&square[hintX_][hintY_]);
+    if(gameover) {
+        hint.stop();
+        needHint = false;
+    }
+    else if(!hint.countdown(7000)) {
+        needHint = true;
+    }
+    if(needHint) {
+        engine.hintTexture.renderTexture(&square[hintX][hintY]);
+        engine.hintTexture.renderTexture(&square[hintX_][hintY_]);
+    }
 }
 
-void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
+void Jewel::renderSelector(const int &selectedX, const int &selectedY, const int &x, const int &y)
 {
     renderJewel();
-    if(hint) {
-        displayHint();
-    }
+    displayHint();
     if(selected) {
         engine.selectorTexture.renderTexture(&square[selectedX][selectedY]);
     }
@@ -139,4 +147,29 @@ void Jewel::renderSelector(int selectedX, int selectedY, int x, int y)
         engine.selectorTexture.renderTexture(&square[x][y]);
     }
     engine.render();
+}
+
+void Jewel::updateGame()
+{
+    int count = 0;
+    while(existMatch()) {
+        hint.stop();
+        needHint = false;
+        
+        //Choose which sfx to play
+        count++;
+        if(count == 1) {
+            engine.matchSFX[0].playSFX();
+        }
+        else if(count == 2) {
+            engine.matchSFX[1].playSFX();
+        }
+        else engine.matchSFX[2].playSFX();
+
+        //Matching actions
+        clear();
+        updateJewel();
+        refill();
+        updateJewel();
+    }
 }

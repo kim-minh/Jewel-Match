@@ -24,7 +24,7 @@ class GameBoard
         //Return true if board was randomized
         bool randomized;
 
-        GameBoard(const int &nRows, const int &nCols, int time);
+        GameBoard(const int &nRows, const int &nCols);
 
         //Game start screen
         void renderStart();
@@ -36,6 +36,9 @@ class GameBoard
 
         //Notice game is starting
         void startNotice();
+
+        //Highlight selection
+        void renderHighlight(SDL_Rect &rect);
 
         //Render timer
         SDL_Rect timeBoard;
@@ -52,6 +55,9 @@ class GameBoard
 
         //Mode select
         SDL_Rect modeSelect;
+        SDL_Rect timeSelect;
+
+        SDL_Rect exit;
 
         //Clear matching jewels
         void clear();

@@ -12,7 +12,7 @@ Sound::~Sound()
     free();
 }
 
-bool Sound::loadMusic(std::string path)
+bool Sound::loadMusic(const std::string &path)
 {
     free();
 
@@ -24,7 +24,7 @@ bool Sound::loadMusic(std::string path)
     else return true;
 }
 
-bool Sound::loadSFX(std::string path)
+bool Sound::loadSFX(const std::string &path)
 {
     free();
 
