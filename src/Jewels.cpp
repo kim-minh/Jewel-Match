@@ -7,18 +7,26 @@ Jewel::Jewel(const int &nRows, const int &nCols) : GameBoard(nRows, nCols)
 
 void Jewel::randomize()
 {
-    randomized = true;
-    //Board creation
-    for(int i = 0; i < nRows; i++) {
-        for(int j = 0; j < nCols; j++) {
-            board[i][j] = engine.getRandom();
+    if(forceQuit && selectChange == ContinueSelection) {
+        score = engine.savedScore;
+        board = engine.savedBoard;
+        time = engine.savedTime;
+        forceQuit = false;
+    }
+    else {
+        randomized = true;
+        //Board creation
+        for(int i = 0; i < nRows; i++) {
+            for(int j = 0; j < nCols; j++) {
+                board[i][j] = engine.getRandom();
+            }
         }
+        while(existMatch()) {
+            clear();
+            refill();
+        }
+        randomized = false;
     }
-    while(existMatch()) {
-        clear();
-        refill();
-    }
-    randomized = false;
 }
 
 void Jewel::renderJewel()
@@ -123,11 +131,7 @@ bool Jewel::existHint()
 
 void Jewel::displayHint()
 {
-    if(gameover) {
-        hint.stop();
-        needHint = false;
-    }
-    else if(!hint.countdown(7000)) {
+    if(!hint.countdown(7000)) {
         needHint = true;
     }
     if(needHint) {
@@ -172,4 +176,11 @@ void Jewel::updateGame()
         refill();
         updateJewel();
     }
+}
+
+void Jewel::saveState()
+{
+    engine.savedScore = score;
+    engine.savedTime = engine.timer.time;
+    engine.savedBoard = board;
 }

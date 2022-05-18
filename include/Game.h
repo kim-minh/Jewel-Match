@@ -46,9 +46,6 @@ class Game
         //Check if game is running
         bool running;
 
-        //Check if choose to exit
-        bool exit;
-
         static Uint32 callback(Uint32 interval, void* param);
 
     public:

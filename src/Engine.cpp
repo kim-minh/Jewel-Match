@@ -4,6 +4,7 @@
 
 Engine::Engine() : WINDOW_WIDTH(800), WINDOW_HEIGHT(600), TITLE("Jewel Match")
 {
+    savedBoard.resize(8, vector<int>(8));
     success = true;
     if( !init() ) {
         Error("Unable to initialize Engine!");
@@ -121,12 +122,14 @@ bool Engine::initTexture()
 bool Engine::initFont()
 {
     //Open font
-    if( !gameModeText.openFont(30) || !timeModeText.openFont(23) || !scoreText.openFont(30) || !highscoreText.openFont(30) || !timeText.openFont(30) ||
-        !scores.openFont(35) || !highscores.openFont(35) || !times.openFont(75) || !startNotice.openFont(100))
+    if( !continueText.openFont(30) || !newGameText.openFont(30) || !gameModeText.openFont(25) || !timeModeText.openFont(20) || 
+        !scoreText.openFont(30) || !highscoreText.openFont(30) || !timeText.openFont(30) || !scores.openFont(35) || 
+        !highscores.openFont(35) || !times.openFont(75) || !startNotice.openFont(100))
     return false;
 
     //Load static text
-    else if(!scoreText.loadText("score") || !highscoreText.loadText("high score") || 
+    else if(!continueText.loadText("Continue") || !newGameText.loadText("New Game") ||
+            !scoreText.loadText("score") || !highscoreText.loadText("high score") || 
             !timeText.loadText("time") || !startNotice.loadText("START"))
         return false;
 
@@ -163,6 +166,16 @@ void Engine::initSave()
                 SDL_RWread(save, &savedHighscore[i][j], sizeof(Sint32), 1);
             }
         }
+        SDL_RWread(save, &forceQuit, sizeof(bool), 1);
+        if(forceQuit) {
+            SDL_RWread(save, &savedTime, sizeof(Uint32), 1);
+            SDL_RWread(save, &savedScore, sizeof(Sint32), 1);
+            for(int i = 0; i < 8; i++) {
+                for(int j = 0; j < 8; j++) {
+                    SDL_RWread(save, &savedBoard[i][j], sizeof(int), 1);
+                }
+            }
+        }
 
         //Close file handler
         SDL_RWclose(save);
@@ -181,6 +194,16 @@ bool Engine::save()
         for(int i = 0; i < Total_Mode; i++) {
             for(int j = 0; j < Total_Time; j++) {
                 SDL_RWwrite(save, &savedHighscore[i][j], sizeof(Sint32), 1);
+            }
+        }
+        SDL_RWwrite(save, &forceQuit, sizeof(bool), 1);
+        if(forceQuit) {
+            SDL_RWwrite(save, &savedTime, sizeof(Uint32), 1);
+            SDL_RWwrite(save, &savedScore, sizeof(Sint32), 1);
+            for(int i = 0; i < 8; i++) {
+                for(int j = 0; j < 8; j++) {
+                    SDL_RWwrite(save, &savedBoard[i][j], sizeof(int), 1);
+                }
             }
         }
 

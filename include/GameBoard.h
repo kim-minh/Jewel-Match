@@ -1,8 +1,6 @@
 #ifndef GAME_BOARD_H
 #define GAME_BOARD_H
 #include "Engine.h"
-#include <vector>
-using std::vector;
 
 class GameBoard
 {
@@ -54,6 +52,8 @@ class GameBoard
         void scoreCalculate();
 
         //Mode select
+        SDL_Rect continueSelect;
+        SDL_Rect newGameSelect;
         SDL_Rect modeSelect;
         SDL_Rect timeSelect;
 

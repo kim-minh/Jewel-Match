@@ -4,6 +4,8 @@
 #include "Texture.h"
 #include "Text.h"
 #include "Sound.h"
+#include <vector>
+using std::vector;
 
 //Jewels in squares
 enum Jewels {Destroyed, Red, Green, Blue, Orange, Yellow, Purple, White, Total};
@@ -12,6 +14,9 @@ enum Jewels {Destroyed, Red, Green, Blue, Orange, Yellow, Purple, White, Total};
 enum GameModes {Time, Zen, Endless, Total_Mode};
 //Time modes
 enum TimeModes {OneMinute, TwoMinutes, FiveMinutes, Total_Time};
+
+//Change selection
+enum SelectionChange {ContinueSelection, NewGameSelection, GameSelection, TimeSelection, Total_Selection};
 
 class Engine
 {
@@ -49,6 +54,10 @@ class Engine
 
         //Saved high score from disk
         Sint32 savedHighscore[Total_Mode][Total_Time];
+        //Saved state
+        Sint32 savedScore;
+        Uint32 savedTime;
+        vector<vector<int> > savedBoard;
 
         Timer timer;
         
@@ -65,6 +74,8 @@ class Engine
         Texture endTexture; //End screen texture
 
         //Texts
+        Text continueText;
+        Text newGameText;
         Text gameModeText; //Game modes
         Text timeModeText; //Time modes
         Text scores; //Score

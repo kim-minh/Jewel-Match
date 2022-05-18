@@ -1,11 +1,10 @@
 #include "Game.h"
-#define VERSION 2.6.5
+#define VERSION 2.7
 
 /* 
-    v2.6.5 changelog:
-    - Add addtional game modes
-    - Improve some logics
-    - Update hint texture for better visibility
+    v2.7 changelog:
+    - Add continue feature
+    - Update textures
     - Other improvements
 */
 
