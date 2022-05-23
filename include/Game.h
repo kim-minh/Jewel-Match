@@ -14,7 +14,7 @@ class Game
         Jewel jewel;
 
         //Board size
-        int nRows, nCols;
+        const int nRows, nCols;
 
         //Coordinate
         int x, y;
@@ -53,7 +53,6 @@ class Game
          * Create a game board with nRows rows and nCols column
          * \param nRows number of rows
          * \param nCols number of column
-         * \param time game's timer
         */
         Game(const int &nRows, const int &nCols);
 };

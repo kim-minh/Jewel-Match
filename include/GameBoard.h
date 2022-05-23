@@ -57,6 +57,7 @@ class GameBoard
         SDL_Rect modeSelect;
         SDL_Rect timeSelect;
 
+        //Exit to main menu
         SDL_Rect exit;
 
         //Clear matching jewels

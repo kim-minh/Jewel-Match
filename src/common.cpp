@@ -10,8 +10,8 @@ bool selected = false;
 int selectChange = 1;
 
 int gameMode = 0;
-std::string game_mode[] = {"Time", "Zen", "Endless"};
+const std::string game_mode[] = {"Time", "Zen", "Endless"};
 int timeMode = 1;
-int time_mode[] = {60, 120, 300};
+const int time_mode[] = {60, 120, 300};
 
 Sint32* highscore = 0;

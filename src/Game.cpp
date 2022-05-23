@@ -11,9 +11,11 @@ Game::Game(const int &nRows, const int &nCols) : jewel(nRows, nCols), nRows(nRow
 
 void Game::startGame()
 {
-    while(running && SDL_WaitEvent(&e)) {
-        if(e.type == SDL_QUIT)
+    while(SDL_WaitEvent(&e)) {
+        if(e.type == SDL_QUIT) {
             running = false;
+            break;
+        }
         else {
             jewel.renderStart();
             if(e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN) {
@@ -23,7 +25,7 @@ void Game::startGame()
                         selectChange = ContinueSelection;
                         if(e.type == SDL_MOUSEBUTTONDOWN) {
                             start();
-                            return;
+                            break;
                         }
                     }
                 }
@@ -32,7 +34,7 @@ void Game::startGame()
                     if(e.type == SDL_MOUSEBUTTONDOWN) {
                         forceQuit = false;
                         start();
-                        return;
+                        break;
                     }
                 }
                 else if(SDL_PointInRect(&mousePos, &jewel.modeSelect)) {
@@ -72,7 +74,7 @@ void Game::startGame()
  
                     case SDLK_RETURN:
                         start();
-                        return;
+                        break;
                 }
             }
         }
@@ -91,14 +93,18 @@ void Game::endGame()
         jewel.engine.endSFX.playSFX();
     }
     while(SDL_WaitEvent(&e)) {
+        if(e.type == SDL_QUIT) {
+            running = false;;
+            break;
+        }
         if(e.type == SDL_KEYDOWN) {
             if(e.key.keysym.sym == SDLK_ESCAPE) {
                 startGame();
-                return;
+                break;
             }
             else if(e.key.keysym.sym == SDLK_RETURN) {
                 start();
-                return;
+                break;
             }
         }
     }

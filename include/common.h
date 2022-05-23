@@ -20,10 +20,10 @@ extern int selectChange;
 
 //Game mode
 extern int gameMode;
-extern std::string game_mode[];
+const extern std::string game_mode[];
 //Time mode
 extern int timeMode;
-extern int time_mode[];
+const extern int time_mode[];
 
 //High score
 extern Sint32* highscore;
